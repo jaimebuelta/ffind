@@ -83,4 +83,7 @@ def main():
            path_match=args.path, colored=args.colored)
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

@@ -75,7 +75,7 @@ def main():
                         dest='colored',
                         help='Do not display color',
                         default=True)
-    parser.add_argument('-s --no_symlinks',
+    parser.add_argument('--nosymlinks',
                         action='store_false',
                         dest='follow_symlinks',
                         help='Do not follow symlinks'

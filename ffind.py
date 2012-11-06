@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 ''' Search for a file name in the specified dir (default current one) '''
 import os
+import sys
 import argparse
 import re
 
@@ -58,10 +59,13 @@ def main():
     parser = argparse.ArgumentParser(
         description='Search file name in dir tree'
     )
-    parser.add_argument('-d', metavar='dir', default='.', required=False)
+    parser.add_argument('-d', metavar='dir',
+                        default='.', dest='dir',
+                        required=False)
     parser.add_argument('-p',
                         action='store_true',
                         help='match path',
+                        dest='path',
                         default=False)
     parser.add_argument('-c --no_color',
                         action='store_false',
@@ -71,8 +75,12 @@ def main():
     parser.add_argument('filepattern')
     args = parser.parse_args()
 
-    search(directory=args.d, file_pattern=args.filepattern,
-           path_match=args.p, colored=args.colored)
+    # If output is redirected, deactivate color
+    if not sys.stdout.isatty():
+        args.colored = False
+
+    search(directory=args.dir, file_pattern=args.filepattern,
+           path_match=args.path, colored=args.colored)
 
 if __name__ == '__main__':
     main()

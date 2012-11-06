@@ -40,6 +40,7 @@ def search(directory, file_pattern, path_match,
                           to_match[match.start(): match.end()],
                           to_match[match.end():]]
                 if not path_match:
+                    # Add the fullpath to the prefix
                     smatch[0] = os.path.join(root, smatch[0])
 
                 if output:
@@ -58,12 +59,12 @@ def print_match(splitted_match, colored, color=RED_CHARACTER):
     else:
         colored_output = splitted_match
 
-    print ''.join(colored_output)
+    print (''.join(colored_output))
 
 
-def main():
+def parse_params_and_search():
     parser = argparse.ArgumentParser(
-        description='Search file name in dir tree'
+        description='Search file name in directory tree'
     )
     parser.add_argument('-p',
                         action='store_true',
@@ -98,8 +99,13 @@ def main():
            colored=args.colored,
            follow_symlinks=args.follow_symlinks)
 
-if __name__ == '__main__':
+
+def run():
     try:
-        main()
+        parse_params_and_search()
     except KeyboardInterrupt:
         pass
+
+
+if __name__ == '__main__':
+    run()

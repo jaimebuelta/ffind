@@ -66,15 +66,12 @@ def main():
     parser = argparse.ArgumentParser(
         description='Search file name in dir tree'
     )
-    parser.add_argument('-d', metavar='dir',
-                        default='.', dest='dir',
-                        required=False)
     parser.add_argument('-p',
                         action='store_true',
                         help='match whole path, not only name of files',
                         dest='path_match',
                         default=False)
-    parser.add_argument('-c --no_color',
+    parser.add_argument('--nocolor',
                         action='store_false',
                         dest='colored',
                         help='Do not display color',
@@ -87,6 +84,8 @@ def main():
                              'infinite recursion)',
                         default=True)
 
+    parser.add_argument('dir', nargs='?',
+                        help='Directory to search', default='.')
     parser.add_argument('filepattern')
     args = parser.parse_args()
 

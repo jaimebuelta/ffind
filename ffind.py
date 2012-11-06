@@ -14,7 +14,8 @@ PURPLE_CHARACTER = '\x1b[35m'
 NO_COLOR = '\x1b[0m'
 
 
-def search(directory, file_pattern, path_match, output=True, colored=True):
+def search(directory, file_pattern, path_match,
+           follow_symlinks=True, output=True, colored=True):
     ''' Search the files matching the pattern.
         The files will be returned, and can be optionally printed '''
 
@@ -22,7 +23,13 @@ def search(directory, file_pattern, path_match, output=True, colored=True):
 
     results = []
 
-    for root, sub_folders, files in os.walk(directory):
+    for root, sub_folders, files in os.walk(directory,
+                                            followlinks=follow_symlinks):
+
+        # Ignore hidden directories
+        if '/.' in root:
+            continue
+
         for filename in files:
             full_filename = os.path.join(root, filename)
             to_match = full_filename if path_match else filename
@@ -64,14 +71,22 @@ def main():
                         required=False)
     parser.add_argument('-p',
                         action='store_true',
-                        help='match path',
-                        dest='path',
+                        help='match whole path, not only name of files',
+                        dest='path_match',
                         default=False)
     parser.add_argument('-c --no_color',
                         action='store_false',
                         dest='colored',
                         help='Do not display color',
                         default=True)
+    parser.add_argument('-s --no_symlinks',
+                        action='store_false',
+                        dest='follow_symlinks',
+                        help='Do not follow symlinks'
+                             ' (following symlinks can lead to '
+                             'infinite recursion)',
+                        default=True)
+
     parser.add_argument('filepattern')
     args = parser.parse_args()
 
@@ -80,7 +95,8 @@ def main():
         args.colored = False
 
     search(directory=args.dir, file_pattern=args.filepattern,
-           path_match=args.path, colored=args.colored)
+           path_match=args.path_match, colored=args.colored,
+           follow_symlinks=args.follow_symlinks)
 
 if __name__ == '__main__':
     try:

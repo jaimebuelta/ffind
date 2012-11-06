@@ -25,7 +25,6 @@ def search(directory, file_pattern, path_match,
 
     for root, sub_folders, files in os.walk(directory,
                                             followlinks=follow_symlinks):
-
         # Ignore hidden directories
         if '/.' in root:
             continue
@@ -93,8 +92,10 @@ def main():
     if not sys.stdout.isatty():
         args.colored = False
 
-    search(directory=args.dir, file_pattern=args.filepattern,
-           path_match=args.path_match, colored=args.colored,
+    search(directory=args.dir,
+           file_pattern=args.filepattern,
+           path_match=args.path_match,
+           colored=args.colored,
            follow_symlinks=args.follow_symlinks)
 
 if __name__ == '__main__':

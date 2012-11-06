@@ -1,0 +1,3 @@
+An utility to search files recursivelly on a dir. 
+
+Basically, a sane replacemente for `find . -name '*FILENAME*'`. It will also print colorized output.

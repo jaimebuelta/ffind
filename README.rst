@@ -17,11 +17,17 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 - Ignores hidden directories (directories starting with .)
 - Follow symlinks by default, but that can be deactivated if necesary to avoid
   recursion problems
+- Requires python2.7 or python3.3
 
 Common uses:
 
-`ffind.py txt` to return all text files in current dir
-`ffind.py ../other_dir txt` to return all text files under dir ../other_dir (or `ffind.py txt -d ../other_dir`)
+`ffind txt` to return all text files in current dir
+`ffind ../other_dir txt` to return all text files under dir ../other_dir (or `ffind.py txt -d ../other_dir`)
 
 
-Just check ffind.py -h to see all the options
+Just check ffind -h to see all the options
+
+Install
+=======
+
+python setup.py install

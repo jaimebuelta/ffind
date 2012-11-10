@@ -29,7 +29,8 @@ def search(directory, file_pattern, path_match,
         if '/.' in root:
             continue
 
-        for filename in files:
+        # Search in files and subfolders
+        for filename in files + sub_folders:
             full_filename = os.path.join(root, filename)
             to_match = full_filename if path_match else filename
             match = re.search(pattern, to_match)

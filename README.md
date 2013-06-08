@@ -1,12 +1,12 @@
-ffind
-=====
+ffind - A sane replacement for find
+===
 
 *Info:* An utility to search files recursivelly on a dir.
 
 *Author:* Jaime Buelta
 
 About
-=====
+---
 
 Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 
@@ -21,13 +21,13 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 
 Common uses:
 
-`ffind txt` to return all text files in current dir
-`ffind ../other_dir txt` to return all text files under dir ../other_dir (or `ffind.py txt -d ../other_dir`)
+- `ffind txt` to return all text files in current dir
+- `ffind ../other_dir txt` to return all text files under dir ../other_dir (or `ffind.py txt -d ../other_dir`)
 
 
 Just check ffind -h to see all the options
 
 Install
-=======
+---
 
 python setup.py install

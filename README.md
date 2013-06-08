@@ -1,4 +1,4 @@
-ffind - A sane replacement for find
+ffind - A sane replacement for command line file search
 ===
 
 *Info:* An utility to search files recursivelly on a dir.

@@ -14,7 +14,7 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 - Search recursively on current directory by default.
 - Regex can affect only the filename (default) or the full path.
 - Will print colorized output in glamorous red (default), except on redirected output.
-- Ignores hidden directories (directories starting with .)
+- Ignores hidden directories (directories starting with .) by default, but this can be disabled
 - Follow symlinks by default, but that can be deactivated if necesary to avoid
   recursion problems
 - Requires python2.7 or python3.3

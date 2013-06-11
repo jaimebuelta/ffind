@@ -15,7 +15,8 @@ NO_COLOR = '\x1b[0m'
 
 
 def search(directory, file_pattern, path_match,
-           follow_symlinks=True, output=True, colored=True):
+           follow_symlinks=True, output=True, colored=True,
+           ignore_hidden=True):
     ''' Search the files matching the pattern.
         The files will be returned, and can be optionally printed '''
 
@@ -25,8 +26,8 @@ def search(directory, file_pattern, path_match,
 
     for root, sub_folders, files in os.walk(directory,
                                             followlinks=follow_symlinks):
-        # Ignore hidden directories
-        if '/.' in root:
+        # Ignore hidden directories unless explicitly told not to
+        if '/.' in root and ignore_hidden:
             continue
 
         # Search in files and subfolders
@@ -84,6 +85,11 @@ def parse_params_and_search():
                              ' (following symlinks can lead to '
                              'infinite recursion)',
                         default=True)
+    parser.add_argument('--hidden',
+                        action='store_false',
+                        dest='ignore_hidden',
+                        help='Do not ignore hidden directories',
+                        default=True)
 
     parser.add_argument('dir', nargs='?',
                         help='Directory to search', default='.')
@@ -98,7 +104,8 @@ def parse_params_and_search():
            file_pattern=args.filepattern,
            path_match=args.path_match,
            colored=args.colored,
-           follow_symlinks=args.follow_symlinks)
+           follow_symlinks=args.follow_symlinks,
+           ignore_hidden=args.ignore_hidden)
 
 
 def run():

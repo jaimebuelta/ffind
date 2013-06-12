@@ -2,8 +2,13 @@
 ''' Search for a file name in the specified dir (default current one) '''
 import os
 import sys
-import argparse
 import re
+# Try to load argparse and if it doesn't exist load the backported version
+# from ffind package
+try:
+    import argparse
+except ImportError:
+    from backports import argparse
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'
@@ -16,7 +21,7 @@ NO_COLOR = '\x1b[0m'
 
 def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
-           ignore_hidden=True):
+           ignore_hidden=True, delete=False, exec_command=False):
     ''' Search the files matching the pattern.
         The files will be returned, and can be optionally printed '''
 
@@ -45,7 +50,13 @@ def search(directory, file_pattern, path_match,
                     # Add the fullpath to the prefix
                     smatch[0] = os.path.join(root, smatch[0])
 
-                if output:
+                if delete:
+                    delete_file(full_filename)
+
+                elif exec_command:
+                    execute_command(exec_command[0], full_filename)
+
+                elif output:
                     print_match(smatch, colored)
 
                 results.append(full_filename)
@@ -63,6 +74,22 @@ def print_match(splitted_match, colored, color=RED_CHARACTER):
 
     print (''.join(colored_output))
 
+def delete_file(full_filename):
+    try:
+        if os.path.isdir(full_filename):
+            os.removedirs(full_filename)
+        else:
+            os.remove(full_filename)
+    except Exception as e:
+        print "cannot delete: %s" % str(e)
+
+def execute_command(command_template, full_filename):
+    if command_template.count('{}') > 0:
+        command = command_template.replace('{}', full_filename)
+    else:
+        command = command_template + " " + full_filename
+
+    os.system(command)
 
 def parse_params_and_search():
     parser = argparse.ArgumentParser(
@@ -91,6 +118,20 @@ def parse_params_and_search():
                         help='Do not ignore hidden directories',
                         default=True)
 
+    parser.add_argument('--delete',
+                        action='store_true',
+                        dest='delete',
+                        help='Delete files found',
+                        default=False)
+
+    parser.add_argument('--exec',
+                        dest='exec_command',
+                        nargs=1,
+                        metavar=('"command"'),
+                        help="Execute the given command with the file found as argument. " +
+						"The string '{}' will be replaced with the current file name being processed",
+                        default=False)
+
     parser.add_argument('dir', nargs='?',
                         help='Directory to search', default='.')
     parser.add_argument('filepattern')
@@ -105,7 +146,9 @@ def parse_params_and_search():
            path_match=args.path_match,
            colored=args.colored,
            follow_symlinks=args.follow_symlinks,
-           ignore_hidden=args.ignore_hidden)
+           ignore_hidden=args.ignore_hidden,
+           delete=args.delete,
+           exec_command=args.exec_command)
 
 
 def run():

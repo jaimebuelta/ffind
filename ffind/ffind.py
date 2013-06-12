@@ -2,8 +2,13 @@
 ''' Search for a file name in the specified dir (default current one) '''
 import os
 import sys
-import argparse
 import re
+# Try to load argparse and if it doesn't exist load the backported version
+# from ffind package
+try:
+    import argparse
+except ImportError:
+    from backports import argparse
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

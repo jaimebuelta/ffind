@@ -17,6 +17,6 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     keywords=['searching', 'file system'],
-    packages=['ffind'],
+    packages=['ffind', 'ffind.backports'],
     scripts=['scripts/ffind'],
 )

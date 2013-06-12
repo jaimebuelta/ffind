@@ -16,7 +16,7 @@ NO_COLOR = '\x1b[0m'
 
 def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
-           ignore_hidden=True):
+           ignore_hidden=True, delete=False):
     ''' Search the files matching the pattern.
         The files will be returned, and can be optionally printed '''
 
@@ -45,7 +45,16 @@ def search(directory, file_pattern, path_match,
                     # Add the fullpath to the prefix
                     smatch[0] = os.path.join(root, smatch[0])
 
-                if output:
+                if delete:
+                    try:
+                        if os.path.isdir(full_filename):
+                            os.removedirs(full_filename)
+                        else:
+                            os.remove(full_filename)
+                    except Exception as e:
+                        print "cannot delete: %s" % str(e)
+
+                elif output:
                     print_match(smatch, colored)
 
                 results.append(full_filename)
@@ -91,6 +100,12 @@ def parse_params_and_search():
                         help='Do not ignore hidden directories',
                         default=True)
 
+    parser.add_argument('--delete',
+                        action='store_true',
+                        dest='delete',
+                        help='Delete files found',
+                        default=False)
+
     parser.add_argument('dir', nargs='?',
                         help='Directory to search', default='.')
     parser.add_argument('filepattern')
@@ -105,7 +120,8 @@ def parse_params_and_search():
            path_match=args.path_match,
            colored=args.colored,
            follow_symlinks=args.follow_symlinks,
-           ignore_hidden=args.ignore_hidden)
+           ignore_hidden=args.ignore_hidden,
+           delete=args.delete)
 
 
 def run():

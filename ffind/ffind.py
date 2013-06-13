@@ -74,6 +74,7 @@ def print_match(splitted_match, colored, color=RED_CHARACTER):
 
     print (''.join(colored_output))
 
+
 def delete_file(full_filename):
     try:
         if os.path.isdir(full_filename):
@@ -83,6 +84,7 @@ def delete_file(full_filename):
     except Exception as e:
         print "cannot delete: %s" % str(e)
 
+
 def execute_command(command_template, full_filename):
     if command_template.count('{}') > 0:
         command = command_template.replace('{}', full_filename)
@@ -90,6 +92,7 @@ def execute_command(command_template, full_filename):
         command = command_template + " " + full_filename
 
     os.system(command)
+
 
 def parse_params_and_search():
     parser = argparse.ArgumentParser(
@@ -128,8 +131,9 @@ def parse_params_and_search():
                         dest='exec_command',
                         nargs=1,
                         metavar=('"command"'),
-                        help="Execute the given command with the file found as argument. " +
-						"The string '{}' will be replaced with the current file name being processed",
+                        help='Execute the given command with the file found '
+                             "as argument. The string '{}' will be replaced "
+                             'with the current file name being processed',
                         default=False)
 
     parser.add_argument('dir', nargs='?',

@@ -1,6 +1,6 @@
 # Author: Steven J. Bethard <steven.bethard@gmail.com>.
 
-"""Command-line parsing library
+'''Command-line parsing library
 
 This module is an optparse-inspired command-line parsing library that:
 
@@ -59,7 +59,7 @@ All other classes in this module are considered implementation details.
 (Also note that HelpFormatter and RawDescriptionHelpFormatter are only
 considered public as object names -- the API of the formatter objects is
 still considered an implementation detail.)
-"""
+'''
 
 __version__ = '1.1'
 __all__ = [
@@ -109,14 +109,15 @@ _UNRECOGNIZED_ARGS_ATTR = '_unrecognized_args'
 # Utility functions and classes
 # =============================
 
+
 class _AttributeHolder(object):
-    """Abstract base class that provides __repr__.
+    '''Abstract base class that provides __repr__.
 
     The __repr__ method returns a string in the format::
         ClassName(attr=name, attr=name, ...)
     The attributes are determined either by a class-level attribute,
     '_kwarg_names', or by inspecting the instance __dict__.
-    """
+    '''
 
     def __repr__(self):
         type_name = type(self).__name__
@@ -145,11 +146,11 @@ def _ensure_value(namespace, name, value):
 # ===============
 
 class HelpFormatter(object):
-    """Formatter for generating usage messages and argument help strings.
+    '''Formatter for generating usage messages and argument help strings.
 
     Only the name of this class is considered a public API. All the methods
     provided by the class are considered an implementation detail.
-    """
+    '''
 
     def __init__(self,
                  prog,
@@ -625,33 +626,33 @@ class HelpFormatter(object):
 
 
 class RawDescriptionHelpFormatter(HelpFormatter):
-    """Help message formatter which retains any formatting in descriptions.
+    '''Help message formatter which retains any formatting in descriptions.
 
     Only the name of this class is considered a public API. All the methods
     provided by the class are considered an implementation detail.
-    """
+    '''
 
     def _fill_text(self, text, width, indent):
         return ''.join([indent + line for line in text.splitlines(True)])
 
 
 class RawTextHelpFormatter(RawDescriptionHelpFormatter):
-    """Help message formatter which retains formatting of all help text.
+    '''Help message formatter which retains formatting of all help text.
 
     Only the name of this class is considered a public API. All the methods
     provided by the class are considered an implementation detail.
-    """
+    '''
 
     def _split_lines(self, text, width):
         return text.splitlines()
 
 
 class ArgumentDefaultsHelpFormatter(HelpFormatter):
-    """Help message formatter which adds default values to argument help.
+    '''Help message formatter which adds default values to argument help.
 
     Only the name of this class is considered a public API. All the methods
     provided by the class are considered an implementation detail.
-    """
+    '''
 
     def _get_help_string(self, action):
         help = action.help
@@ -671,7 +672,7 @@ def _get_action_name(argument):
     if argument is None:
         return None
     elif argument.option_strings:
-        return  '/'.join(argument.option_strings)
+        return '/'.join(argument.option_strings)
     elif argument.metavar not in (None, SUPPRESS):
         return argument.metavar
     elif argument.dest not in (None, SUPPRESS):
@@ -681,11 +682,11 @@ def _get_action_name(argument):
 
 
 class ArgumentError(Exception):
-    """An error from creating or using an argument (optional or positional).
+    '''An error from creating or using an argument (optional or positional).
 
     The string value of this exception is the message, augmented with
     information about the argument that caused it.
-    """
+    '''
 
     def __init__(self, argument, message):
         self.argument_name = _get_action_name(argument)
@@ -701,7 +702,7 @@ class ArgumentError(Exception):
 
 
 class ArgumentTypeError(Exception):
-    """An error from trying to convert a command line string to a type."""
+    '''An error from trying to convert a command line string to a type.'''
     pass
 
 
@@ -710,7 +711,7 @@ class ArgumentTypeError(Exception):
 # ==============
 
 class Action(_AttributeHolder):
-    """Information about how to convert command line strings to Python objects.
+    '''Information about how to convert command line strings to Python objects.
 
     Action objects are used by an ArgumentParser to represent the information
     needed to parse a single argument from one or more strings from the
@@ -758,7 +759,7 @@ class Action(_AttributeHolder):
 
         - metavar -- The name to be used for the option's argument with the
             help string. If None, the 'dest' value will be used as the name.
-    """
+    '''
 
     def __init__(self,
                  option_strings,
@@ -1087,7 +1088,8 @@ class _SubParsersAction(Action):
         # parse all the remaining options into the namespace
         # store any unrecognized options on the object, so that the top
         # level parser can decide what to do with them
-        namespace, arg_strings = parser.parse_known_args(arg_strings, namespace)
+        namespace, arg_strings = parser.parse_known_args(arg_strings,
+                                                         namespace)
         if arg_strings:
             vars(namespace).setdefault(_UNRECOGNIZED_ARGS_ATTR, [])
             getattr(namespace, _UNRECOGNIZED_ARGS_ATTR).extend(arg_strings)
@@ -1098,7 +1100,7 @@ class _SubParsersAction(Action):
 # ==============
 
 class FileType(object):
-    """Factory for creating file object types
+    '''Factory for creating file object types
 
     Instances of FileType are typically passed as type= arguments to the
     ArgumentParser add_argument() method.
@@ -1108,21 +1110,21 @@ class FileType(object):
             same values as the builtin open() function.
         - bufsize -- The file's desired buffer size. Accepts the same values as
             the builtin open() function.
-    """
+    '''
 
     def __init__(self, mode='r', bufsize=-1):
         self._mode = mode
         self._bufsize = bufsize
 
     def __call__(self, string):
-        # the special argument "-" means sys.std{in,out}
+        # the special argument '-' means sys.std{in,out}
         if string == '-':
             if 'r' in self._mode:
                 return _sys.stdin
             elif 'w' in self._mode:
                 return _sys.stdout
             else:
-                msg = _('argument "-" with mode %r') % self._mode
+                msg = _("argument '-' with mode %r") % self._mode
                 raise ValueError(msg)
 
         # all other arguments are used as file names
@@ -1141,12 +1143,13 @@ class FileType(object):
 # Optional and Positional Parsing
 # ===========================
 
+
 class Namespace(_AttributeHolder):
-    """Simple object for storing attributes.
+    '''Simple object for storing attributes.
 
     Implements equality by attribute names and values, and provides a simple
     string representation.
-    """
+    '''
 
     def __init__(self, **kwargs):
         for name in kwargs:
@@ -1208,7 +1211,7 @@ class _ActionsContainer(object):
         # defaults storage
         self._defaults = {}
 
-        # determines whether an "option" looks like a negative number
+        # determines whether an 'option' looks like a negative number
         self._negative_number_matcher = _re.compile(r'^-\d+$|^-\d*\.\d+$')
 
         # whether or not there are any optionals that look like negative
@@ -1243,15 +1246,14 @@ class _ActionsContainer(object):
                 return action.default
         return self._defaults.get(dest, None)
 
-
     # =======================
     # Adding argument actions
     # =======================
     def add_argument(self, *args, **kwargs):
-        """
+        '''
         add_argument(dest, ..., name=value, ...)
         add_argument(option_string, option_string, ..., name=value, ...)
-        """
+        '''
 
         # if no positional args are supplied or only one is supplied and
         # it doesn't look like an option string, parse a positional
@@ -1277,7 +1279,7 @@ class _ActionsContainer(object):
         # create the action object, and add it to the parser
         action_class = self._pop_action_class(kwargs)
         if not _callable(action_class):
-            raise ValueError('unknown action "%s"' % (action_class,))
+            raise ValueError("unknown action '%s'" % (action_class,))
         action = action_class(**kwargs)
 
         # raise an error if the action type is not callable
@@ -1286,11 +1288,12 @@ class _ActionsContainer(object):
             raise ValueError('%r is not callable' % (type_func,))
 
         # raise an error if the metavar does not match the type
-        if hasattr(self, "_get_formatter"):
+        if hasattr(self, '_get_formatter'):
             try:
                 self._get_formatter()._format_args(action, None)
             except TypeError:
-                raise ValueError("length of metavar tuple does not match nargs")
+                msg = 'length of metavar tuple does not match nargs'
+                raise ValueError(msg)
 
         return self._add_action(action)
 
@@ -1371,7 +1374,7 @@ class _ActionsContainer(object):
     def _get_positional_kwargs(self, dest, **kwargs):
         # make sure required is not specified
         if 'required' in kwargs:
-            msg = _("'required' is an invalid argument for positionals")
+            msg = _(''required' is an invalid argument for positionals')
             raise TypeError(msg)
 
         # mark positional arguments as required if at least one is
@@ -1523,7 +1526,7 @@ class _MutuallyExclusiveGroup(_ArgumentGroup):
 
 
 class ArgumentParser(_AttributeHolder, _ActionsContainer):
-    """Object for parsing command line strings into Python objects.
+    '''Object for parsing command line strings into Python objects.
 
     Keyword Arguments:
         - prog -- The name of the program (default: sys.argv[0])
@@ -1538,7 +1541,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
         - argument_default -- The default value for all arguments
         - conflict_handler -- String indicating how to handle conflicts
         - add_help -- Add a -h/-help option
-    """
+    '''
 
     def __init__(self,
                  prog=None,
@@ -1557,10 +1560,10 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
         if version is not None:
             import warnings
             warnings.warn(
-                """The "version" argument to ArgumentParser is deprecated. """
-                """Please use """
-                """"add_argument(..., action='version', version="N", ...)" """
-                """instead""", DeprecationWarning)
+                '''The 'version' argument to ArgumentParser is deprecated. '''
+                '''Please use '''
+                ''''add_argument(..., action='version', version='N', ...)' '''
+                '''instead''', DeprecationWarning)
 
         superinit = super(ArgumentParser, self).__init__
         superinit(description=description,
@@ -1595,15 +1598,17 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
         default_prefix = '-' if '-' in prefix_chars else prefix_chars[0]
         if self.add_help:
             self.add_argument(
-                default_prefix+'h', default_prefix*2+'help',
+                default_prefix + 'h', default_prefix * 2 + 'help',
                 action='help', default=SUPPRESS,
-                help=_('show this help message and exit'))
+                help=_('show this help message and exit')
+            )
         if self.version:
             self.add_argument(
-                default_prefix+'v', default_prefix*2+'version',
+                default_prefix + 'v', default_prefix * 2 + 'version',
                 action='version', default=SUPPRESS,
                 version=self.version,
-                help=_("show program's version number and exit"))
+                help=_('show program's version number and exit')
+            )
 
         # add parent arguments and defaults
         for parent in parents:
@@ -1648,7 +1653,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
             self._subparsers = self._positionals
 
         # prog defaults to the usage message of this parser, skipping
-        # optional arguments and with no "usage:" prefix
+        # optional arguments and with no 'usage:' prefix
         if kwargs.get('prog') is None:
             formatter = self._get_formatter()
             positionals = self._get_positional_actions()
@@ -1779,7 +1784,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
 
             # error if this argument is not allowed with other previously
             # seen arguments, assuming that actions that use the default
-            # value don't really count as "present"
+            # value don't really count as 'present'
             if argument_values is not action.default:
                 seen_non_default_actions.add(action)
                 for conflict_action in action_conflicts.get(action, []):
@@ -2046,7 +2051,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
         if len(arg_string) == 1:
             return None
 
-        # if the option string before the "=" is present, return the action
+        # if the option string before the '=' is present, return the action
         if '=' in arg_string:
             option_string, explicit_arg = arg_string.split('=', 1)
             if option_string in self._option_string_actions:
@@ -2289,7 +2294,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
     def format_version(self):
         import warnings
         warnings.warn(
-            'The format_version method is deprecated -- the "version" '
+            'The format_version method is deprecated -- the 'version' '
             'argument to ArgumentParser is no longer supported.',
             DeprecationWarning)
         formatter = self._get_formatter()
@@ -2315,7 +2320,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
     def print_version(self, file=None):
         import warnings
         warnings.warn(
-            'The print_version method is deprecated -- the "version" '
+            "The print_version method is deprecated -- the 'version' "
             'argument to ArgumentParser is no longer supported.',
             DeprecationWarning)
         self._print_message(self.format_version(), file)
@@ -2335,13 +2340,13 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
         _sys.exit(status)
 
     def error(self, message):
-        """error(message: string)
+        '''error(message: string)
 
         Prints a usage message incorporating the message to stderr and
         exits.
 
         If you override this in a subclass, it should not return -- it
         should either exit or raise an exception.
-        """
+        '''
         self.print_usage(_sys.stderr)
         self.exit(2, _('%s: error: %s\n') % (self.prog, message))

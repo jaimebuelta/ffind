@@ -2294,7 +2294,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
     def format_version(self):
         import warnings
         warnings.warn(
-            'The format_version method is deprecated -- the 'version' '
+            'The format_version method is deprecated -- the \'version\' '
             'argument to ArgumentParser is no longer supported.',
             DeprecationWarning)
         formatter = self._get_formatter()

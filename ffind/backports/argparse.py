@@ -1607,7 +1607,7 @@ class ArgumentParser(_AttributeHolder, _ActionsContainer):
                 default_prefix + 'v', default_prefix * 2 + 'version',
                 action='version', default=SUPPRESS,
                 version=self.version,
-                help=_('show program's version number and exit')
+                help=_('show program\'s version number and exit')
             )
 
         # add parent arguments and defaults

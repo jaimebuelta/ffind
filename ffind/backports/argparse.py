@@ -1374,7 +1374,7 @@ class _ActionsContainer(object):
     def _get_positional_kwargs(self, dest, **kwargs):
         # make sure required is not specified
         if 'required' in kwargs:
-            msg = _(''required' is an invalid argument for positionals')
+            msg = _('\'required\' is an invalid argument for positionals')
             raise TypeError(msg)
 
         # mark positional arguments as required if at least one is

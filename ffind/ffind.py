@@ -19,13 +19,16 @@ PURPLE_CHARACTER = '\x1b[35m'
 NO_COLOR = '\x1b[0m'
 
 
-def search(directory, file_pattern, path_match,
+def search(directory, file_pattern, path_match, case_insensitive=False,
            follow_symlinks=True, output=True, colored=True,
            ignore_hidden=True, delete=False, exec_command=False):
     ''' Search the files matching the pattern.
         The files will be returned, and can be optionally printed '''
 
-    pattern = re.compile(file_pattern)
+    if case_insensitive:
+        pattern = re.compile(file_pattern, re.IGNORECASE)
+    else:
+        pattern = re.compile(file_pattern)
 
     results = []
 
@@ -98,6 +101,11 @@ def parse_params_and_search():
     parser = argparse.ArgumentParser(
         description='Search file name in directory tree'
     )
+    parser.add_argument('-i',
+                        action='store_true',
+                        help='Case insensitve search',
+                        dest='case_insensitive',
+                        default=False)
     parser.add_argument('-p',
                         action='store_true',
                         help='match whole path, not only name of files',
@@ -148,6 +156,7 @@ def parse_params_and_search():
     search(directory=args.dir,
            file_pattern=args.filepattern,
            path_match=args.path_match,
+           case_insensitive=args.case_insensitive,
            colored=args.colored,
            follow_symlinks=args.follow_symlinks,
            ignore_hidden=args.ignore_hidden,

@@ -12,6 +12,7 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 
 - Input filename is a regex, in case is needed.
 - Search recursively on current directory by default.
+- If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.
 - Regex can affect only the filename (default) or the full path.
 - Will print colorized output in glamorous red (default), except on redirected output.
 - Ignores hidden directories (directories starting with .) by default, but this can be disabled

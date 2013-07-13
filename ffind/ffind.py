@@ -21,11 +21,17 @@ NO_COLOR = '\x1b[0m'
 
 def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
-           ignore_hidden=True, delete=False, exec_command=False):
-    ''' Search the files matching the pattern.
-        The files will be returned, and can be optionally printed '''
+           ignore_hidden=True, delete=False, exec_command=False,
+           ignore_case=False):
+    '''
+        Search the files matching the pattern.
+        The files will be returned as a list, and can be optionally printed
+    '''
 
-    pattern = re.compile(file_pattern)
+    if ignore_case:
+        pattern = re.compile(file_pattern, re.IGNORECASE)
+    else:
+        pattern = re.compile(file_pattern)
 
     results = []
 
@@ -120,6 +126,12 @@ def parse_params_and_search():
                         dest='ignore_hidden',
                         help='Do not ignore hidden directories',
                         default=True)
+    parser.add_argument('-c',
+                        action='store_true',
+                        dest='case_sensitive',
+                        help='Force case sensitive. By default, lowercase '
+                             'patterns are case insensitive',
+                        default=False)
 
     parser.add_argument('--delete',
                         action='store_true',
@@ -145,6 +157,9 @@ def parse_params_and_search():
     if not sys.stdout.isatty():
         args.colored = False
 
+    lowercase_pattern = args.filepattern == args.filepattern.lower()
+    ignore_case = not args.case_sensitive and lowercase_pattern
+
     search(directory=args.dir,
            file_pattern=args.filepattern,
            path_match=args.path_match,
@@ -152,6 +167,7 @@ def parse_params_and_search():
            follow_symlinks=args.follow_symlinks,
            ignore_hidden=args.ignore_hidden,
            delete=args.delete,
+           ignore_case=ignore_case,
            exec_command=args.exec_command)
 
 

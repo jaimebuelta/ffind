@@ -129,7 +129,7 @@ def parse_params_and_search():
     parser.add_argument('-c',
                         action='store_true',
                         dest='case_sensitive',
-                        help='Force case sensitive. By default, lowercase '
+                        help='Force case sensitive. By default, all lowercase '
                              'patterns are case insensitive',
                         default=False)
 

@@ -18,11 +18,31 @@ BLUE_CHARACTER = '\x1b[36m'
 PURPLE_CHARACTER = '\x1b[35m'
 NO_COLOR = '\x1b[0m'
 
+VCS_DIRS = ('CVS',
+            'RCS',
+            'SCCS',
+            '.git',
+            '.svn',
+            '.arch-ids',
+            '{arch}')
+
+VCS_FILES = ('=RELEASE-ID',
+             '=meta-update',
+             '=update',
+             '.bzr',
+             '.bzrignore',
+             '.bzrtags',
+             '.hg',
+             '.hgignore',
+             '.hgrags',
+             '_darcs',
+             '.cvsignore',
+             '.gitignore',)
 
 def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
            ignore_hidden=True, delete=False, exec_command=False,
-           ignore_case=False):
+           ignore_case=False, ignore_vcs=False):
     '''
         Search the files matching the pattern.
         The files will be returned as a list, and can be optionally printed
@@ -44,6 +64,11 @@ def search(directory, file_pattern, path_match,
             del sub_folders[:]
             del files[:]
             continue
+
+        # Ignore VCS directories
+        if ignore_vcs:
+            sub_folders[:] = [folder for folder in sub_folders if folder not in VCS_DIRS]
+            files[:] = [file for file in files if file not in VCS_FILES]
 
         # Search in files and subfolders
         for filename in files + sub_folders:
@@ -152,6 +177,12 @@ def parse_params_and_search():
                              'with the current file name being processed',
                         default=False)
 
+    parser.add_argument('--ignore-vcs',
+                        action='store_true',
+                        dest='ignore_vcs',
+                        help='ignore version control system files and directories', 
+                        default=False)
+
     parser.add_argument('dir', nargs='?',
                         help='Directory to search', default='.')
     parser.add_argument('filepattern')
@@ -172,7 +203,8 @@ def parse_params_and_search():
            ignore_hidden=args.ignore_hidden,
            delete=args.delete,
            ignore_case=ignore_case,
-           exec_command=args.exec_command)
+           exec_command=args.exec_command,
+           ignore_vcs=args.ignore_vcs)
 
 
 def run():

@@ -57,13 +57,11 @@ def search(directory, file_pattern, path_match,
 
     for root, sub_folders, files in os.walk(directory, topdown=True,
                                             followlinks=follow_symlinks):
-        current_dir = os.path.basename(root)
 
         # Ignore hidden directories unless explicitly told not to
-        if ignore_hidden and root != directory and current_dir.startswith('.'): 
-            del sub_folders[:]
-            del files[:]
-            continue
+        if ignore_hidden:
+            sub_folders[:] = [folder for folder in sub_folders if not folder.startswith('.')]
+            files[:] = [file for file in files if not file.startswith('.')]
 
         # Ignore VCS directories
         if ignore_vcs:

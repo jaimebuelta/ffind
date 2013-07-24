@@ -40,7 +40,7 @@ def search(directory, file_pattern, path_match,
         current_dir = os.path.basename(root)
 
         # Ignore hidden directories unless explicitly told not to
-        if ignore_hidden and current_dir != directory and current_dir.startswith('.'): 
+        if ignore_hidden and root != directory and current_dir.startswith('.'): 
             del sub_folders[:]
             del files[:]
             continue

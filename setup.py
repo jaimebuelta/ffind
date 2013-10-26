@@ -6,7 +6,7 @@ setup(
     name='ffind',
     description='Sane replacement for command line file search',
     license='MIT',
-    version='0.6',
+    version='0.7',
     author='Jaime Buelta',
     author_email='jaime.buelta@gmail.com',
     url='https://github.com/jaimebuelta/ffind',
@@ -16,7 +16,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
-    install_requires = [
+    install_requires=[
         'setuptools',
     ],
     keywords=['searching', 'file system'],

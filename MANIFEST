@@ -3,4 +3,6 @@ setup.cfg
 setup.py
 ffind/__init__.py
 ffind/ffind.py
+ffind/backports/__init__.py
+ffind/backports/argparse.py
 scripts/ffind

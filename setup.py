@@ -16,6 +16,9 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
+    install_requires = [
+        'setuptools',
+    ],
     keywords=['searching', 'file system'],
     packages=['ffind', 'ffind.backports'],
     scripts=['scripts/ffind'],

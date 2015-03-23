@@ -3,6 +3,7 @@
 import os
 import sys
 import re
+import itertools
 # Try to load argparse and if it doesn't exist load the backported version
 # from ffind package
 try:
@@ -43,48 +44,89 @@ VCS_FILES = ('=RELEASE-ID',
              '.gitignore',)
 
 
-def search(directory, file_pattern, path_match,
-           follow_symlinks=True, output=True, colored=True,
-           ignore_hidden=True, delete=False, exec_command=False,
-           ignore_case=False, ignore_vcs=False):
-    '''
-        Search the files matching the pattern.
-        The files will be returned as a list, and can be optionally printed
-    '''
-
+def create_comparison(file_pattern, ignore_case):
+    ''' Return the adequate comparison (regex or simple) '''
     if ignore_case:
         pattern = re.compile(file_pattern, re.IGNORECASE)
     else:
         pattern = re.compile(file_pattern)
 
-    results = []
+    def regex_compare(to_match):
+        match = re.search(pattern, to_match)
+        if match:
+            smatch = [to_match[:match.start()],
+                      to_match[match.start(): match.end()],
+                      to_match[match.end():]]
+            return smatch
+
+    # Check if is a proper regex (contains a char different from [a-zA-Z0-9])
+    if re.search(r'[^a-zA-Z0-9]', file_pattern):
+        return regex_compare
+
+    # We can go with a simplified comparison
+    if ignore_case:
+        file_pattern = file_pattern.lower()
+
+        def simple_compare_case_insensitive(to_match):
+            if file_pattern in to_match.lower():
+                return regex_compare(to_match)
+        return simple_compare_case_insensitive
+
+    def simple_compare(to_match):
+        if file_pattern in to_match:
+            return regex_compare(to_match)
+
+    return simple_compare
+
+
+def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
+    ''' Create a generator to return subfolders to search, removing the
+        ones to not search from the original list, to avoid keep walking them '''
+
+    for index, folder in enumerate(sub_folders):
+        if ignore_hidden and folder.startswith('.'):
+            del sub_folders[index]
+        elif ignore_vcs and folder in VCS_DIRS:
+            del sub_folders[index]
+        else:
+            yield folder
+
+
+def search(directory, file_pattern, path_match,
+           follow_symlinks=True, output=True, colored=True,
+           ignore_hidden=True, delete=False, exec_command=False,
+           ignore_case=False, ignore_vcs=False, return_results=False):
+    '''
+        Search the files matching the pattern.
+        The files will be returned as a list, and can be optionally printed
+    '''
+
+    # Create the compare function
+    compare = create_comparison(file_pattern, ignore_case)
+
+    if return_results:
+        results = []
 
     for root, sub_folders, files in os.walk(directory, topdown=True,
                                             followlinks=follow_symlinks):
 
-        # Ignore hidden directories unless explicitly told not to
-        if ignore_hidden:
-            sub_folders[:] = [folder for folder in sub_folders
-                              if not folder.startswith('.')]
-            files[:] = [file for file in files if not file.startswith('.')]
+        # Ignore hidden and VCS directories.
+        # They should be removed from the sub_folders list to avoid walking
+        fsubfolders = filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs)
 
-        # Ignore VCS directories
+        # Filter the files
+        if ignore_hidden:
+            files = (file for file in files if not file.startswith('.'))
+
         if ignore_vcs:
-            sub_folders[:] = [folder for folder in sub_folders
-                              if folder not in VCS_DIRS]
-            files[:] = [file for file in files if file not in VCS_FILES]
+            files = (file for file in files if file not in VCS_FILES)
 
         # Search in files and subfolders
-        for filename in files + sub_folders:
+        for filename in itertools.chain(files, fsubfolders):
             full_filename = os.path.join(root, filename)
             to_match = full_filename if path_match else filename
-            match = re.search(pattern, to_match)
-            if match:
-                # Split the match to be able to colorize it
-                # prefix, matched_pattern, sufix
-                smatch = [to_match[:match.start()],
-                          to_match[match.start(): match.end()],
-                          to_match[match.end():]]
+            smatch = compare(to_match)
+            if smatch:
                 if not path_match:
                     # Add the fullpath to the prefix
                     smatch[0] = os.path.join(root, smatch[0])
@@ -98,9 +140,11 @@ def search(directory, file_pattern, path_match,
                 elif output:
                     print_match(smatch, colored)
 
-                results.append(full_filename)
+                if return_results:
+                    results.append(full_filename)
 
-    return results
+    if return_results:
+        return results
 
 
 def print_match(splitted_match, colored, color=RED_CHARACTER):

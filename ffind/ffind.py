@@ -80,8 +80,11 @@ def create_comparison(file_pattern, ignore_case):
 
 
 def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
-    ''' Create a generator to return subfolders to search, removing the
-        ones to not search from the original list, to avoid keep walking them '''
+    '''
+    Create a generator to return subfolders to search, removing the
+    ones to not search from the original list, to avoid keep
+    walking them
+    '''
 
     for index, folder in enumerate(sub_folders):
         if ignore_hidden and folder.startswith('.'):
@@ -112,7 +115,8 @@ def search(directory, file_pattern, path_match,
 
         # Ignore hidden and VCS directories.
         # They should be removed from the sub_folders list to avoid walking
-        fsubfolders = filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs)
+        fsubfolders = filtered_subfolders(sub_folders, ignore_hidden,
+                                          ignore_vcs)
 
         # Filter the files
         if ignore_hidden:
@@ -123,8 +127,7 @@ def search(directory, file_pattern, path_match,
 
         # Search in files and subfolders
         for filename in itertools.chain(files, fsubfolders):
-            full_filename = os.path.join(root, filename)
-            to_match = full_filename if path_match else filename
+            to_match = os.path.join(root, filename) if path_match else filename
             smatch = compare(to_match)
             if smatch:
                 if not path_match:
@@ -132,15 +135,18 @@ def search(directory, file_pattern, path_match,
                     smatch[0] = os.path.join(root, smatch[0])
 
                 if delete:
+                    full_filename = os.path.join(root, filename)
                     delete_file(full_filename)
 
                 elif exec_command:
+                    full_filename = os.path.join(root, filename)
                     execute_command(exec_command[0], full_filename)
 
                 elif output:
                     print_match(smatch, colored)
 
                 if return_results:
+                    full_filename = os.path.join(root, filename)
                     results.append(full_filename)
 
     if return_results:
@@ -155,7 +161,7 @@ def print_match(splitted_match, colored, color=RED_CHARACTER):
     else:
         colored_output = splitted_match
 
-    print (''.join(colored_output))
+    print(''.join(colored_output))
 
 
 def delete_file(full_filename):
@@ -164,8 +170,8 @@ def delete_file(full_filename):
             os.removedirs(full_filename)
         else:
             os.remove(full_filename)
-    except Exception as e:
-        print "cannot delete: %s" % str(e)
+    except Exception as err:
+        print("cannot delete: {error}".format(error=err))
 
 
 def execute_command(command_template, full_filename):

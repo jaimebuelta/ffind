@@ -1,0 +1,50 @@
+<h1 id="ffind-v0-7-a-sane"><a name="ffind-v0-7-a-sane" href="#ffind-v0-7-a-sane" class="md2man-permalink" title="permalink"></a><span class="md2man-title">ffind</span> <span class="md2man-section">v0.7</span> <span class="md2man-date">-</span> <span class="md2man-source">A</span> <span class="md2man-manual">sane</span></h1><p><em>Info:</em> An utility to search files recursively on a dir.</p><p><em>Author:</em> Jaime Buelta</p><h2 id="about"><a name="about" href="#about" class="md2man-permalink" title="permalink"></a>About</h2><p>Basically, replaces <code>find . -name &#39;*FILE_PATTERN*&#39;</code> with <code>ffind.py FILE_PATTERN</code></p>
+<ul>
+<li>Input filename maybe a regex</li>
+<li>Search recursively on current directory by default.</li>
+<li>If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.</li>
+<li>Regex can affect only the filename (default) or the full path.</li>
+<li>Will print colorized output in glamorous red (default), except on redirected output.</li>
+<li>Ignores hidden directories (directories starting with .) by default, but this can be disabled</li>
+<li>Can ignore source control common directories</li>
+<li>Follow symlinks by default, but that can be deactivated if necessary to avoid
+recursion problems</li>
+<li>Requires python2.7</li>
+<li>Can delete match files</li>
+<li>Can execute a command on match files</li>
+<li>Experimental fuzzy search</li>
+</ul>
+<p>Common uses:</p>
+<ul>
+<li><code>ffind txt</code> to return all text files in current dir</li>
+<li><code>ffind ../other_dir txt</code> to return all text files under dir ../other<em>dir (or `ffind.py txt -d ../other</em>dir`)</li>
+</ul>
+<h2 id="all-options"><a name="all-options" href="#all-options" class="md2man-permalink" title="permalink"></a>All options</h2><pre><code>usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]
+                [--delete] [--exec &quot;command&quot;] [--ignore-vcs] [-f] [--version]
+                [dir] filepattern
+
+Search file name in directory tree
+
+positional arguments:
+  dir               Directory to search
+  filepattern
+
+optional arguments:
+  -h, --help        show this help message and exit
+  -p                Match whole path, not only name of files
+  --nocolor         Do not display color
+  --nosymlinks      Do not follow symlinks (following symlinks can lead to
+                    infinite recursion)
+  --hidden          Do not ignore hidden directories
+  -c                Force case sensitive. By default, all lowercase patterns
+                    are case insensitive
+  --delete          Delete files found
+  --exec &quot;command&quot;  Execute the given command with the file found as argument.
+                    The string &#39;{}&#39; will be replaced with the current file
+                    name being processed
+  --ignore-vcs      Ignore version control system files and directories
+  -f                Experimental fuzzy search. Increases the matches, use with
+                    care. Combining it with regex may give crazy results
+  --version         Show program&#39;s version number and exit
+</code></pre>
+<h2 id="install"><a name="install" href="#install" class="md2man-permalink" title="permalink"></a>Install</h2><p>python setup.py install</p>

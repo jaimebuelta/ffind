@@ -1,3 +1,0 @@
-- Check installation procedure
-- Add ffind to PyPi??
-- Test with more versions (is not working with 2.6, as it uses argparse, make sense to support <2.7?)

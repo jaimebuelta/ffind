@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 ''' Search for a file name in the specified dir (default current one) '''
+from __future__ import print_function
 import os
 import sys
 import re
@@ -12,7 +13,11 @@ except ImportError:
     from backports import argparse
 
 import pkg_resources  # part of setuptools
-VERSION = pkg_resources.require('ffind')[0].version
+try:
+    VERSION = pkg_resources.require('ffind')[0].version
+except:
+    # Default if not installed yet
+    VERSION = 0.7
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'
@@ -44,8 +49,12 @@ VCS_FILES = ('=RELEASE-ID',
              '.gitignore',)
 
 
-def create_comparison(file_pattern, ignore_case):
+def create_comparison(file_pattern, ignore_case, fuzzy):
     ''' Return the adequate comparison (regex or simple) '''
+    if fuzzy:
+        # Generate a pattern to fuzzy match
+        file_pattern = '.*?'.join(f for f in file_pattern)
+
     if ignore_case:
         pattern = re.compile(file_pattern, re.IGNORECASE)
     else:
@@ -60,7 +69,7 @@ def create_comparison(file_pattern, ignore_case):
             return smatch
 
     # Check if is a proper regex (contains a char different from [a-zA-Z0-9])
-    if re.search(r'[^a-zA-Z0-9]', file_pattern):
+    if fuzzy or re.search(r'[^a-zA-Z0-9]', file_pattern):
         return regex_compare
 
     # We can go with a simplified comparison
@@ -111,14 +120,15 @@ def filtered_files(files, ignore_hidden, ignore_vcs):
 def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
            ignore_hidden=True, delete=False, exec_command=False,
-           ignore_case=False, ignore_vcs=False, return_results=False):
+           ignore_case=False, ignore_vcs=False, return_results=False,
+           fuzzy=False):
     '''
         Search the files matching the pattern.
         The files will be returned as a list, and can be optionally printed
     '''
 
     # Create the compare function
-    compare = create_comparison(file_pattern, ignore_case)
+    compare = create_comparison(file_pattern, ignore_case, fuzzy)
 
     if return_results:
         results = []
@@ -127,7 +137,6 @@ def search(directory, file_pattern, path_match,
                                             followlinks=follow_symlinks):
 
         # Ignore hidden and VCS directories.
-        # They should be removed from the sub_folders list to avoid walking
         fsubfolders = filtered_subfolders(sub_folders, ignore_hidden,
                                           ignore_vcs)
         ffiles = filtered_files(files, ignore_hidden, ignore_vcs)
@@ -196,7 +205,7 @@ def parse_params_and_search():
     )
     parser.add_argument('-p',
                         action='store_true',
-                        help='match whole path, not only name of files',
+                        help='Match whole path, not only name of files',
                         dest='path_match',
                         default=False)
     parser.add_argument('--nocolor',
@@ -241,9 +250,18 @@ def parse_params_and_search():
     parser.add_argument('--ignore-vcs',
                         action='store_true',
                         dest='ignore_vcs',
-                        help='ignore version control system files and '
+                        help='Ignore version control system files and '
                              'directories',
                         default=False)
+
+    parser.add_argument('-f',
+                        action='store_true',
+                        dest='fuzzy',
+                        help='Experimental fuzzy search. '
+                             'Increases the matches, use with care. '
+                             'Combining it with regex may give crazy results',
+                        default=False)
+
     parser.add_argument('--version', action='version',
                         version='%(prog)s {version}'.format(version=VERSION))
 
@@ -268,7 +286,8 @@ def parse_params_and_search():
            delete=args.delete,
            ignore_case=ignore_case,
            exec_command=args.exec_command,
-           ignore_vcs=args.ignore_vcs)
+           ignore_vcs=args.ignore_vcs,
+           fuzzy=args.fuzzy)
 
 
 def run():

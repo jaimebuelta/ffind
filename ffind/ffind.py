@@ -86,13 +86,26 @@ def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
     walking them
     '''
 
-    for index, folder in enumerate(sub_folders):
+    for folder in sub_folders:
         if ignore_hidden and folder.startswith('.'):
-            del sub_folders[index]
+            sub_folders.remove(folder)
         elif ignore_vcs and folder in VCS_DIRS:
-            del sub_folders[index]
+            sub_folders.remove(folder)
         else:
             yield folder
+
+
+def filtered_files(files, ignore_hidden, ignore_vcs):
+    '''
+    Create a generator to return the filtered files
+    '''
+    for f in files:
+        if ignore_hidden and f.startswith('.'):
+            continue
+        if ignore_vcs and f in VCS_FILES:
+            continue
+
+        yield f
 
 
 def search(directory, file_pattern, path_match,
@@ -117,16 +130,10 @@ def search(directory, file_pattern, path_match,
         # They should be removed from the sub_folders list to avoid walking
         fsubfolders = filtered_subfolders(sub_folders, ignore_hidden,
                                           ignore_vcs)
-
-        # Filter the files
-        if ignore_hidden:
-            files = (file for file in files if not file.startswith('.'))
-
-        if ignore_vcs:
-            files = (file for file in files if file not in VCS_FILES)
+        ffiles = filtered_files(files, ignore_hidden, ignore_vcs)
 
         # Search in files and subfolders
-        for filename in itertools.chain(files, fsubfolders):
+        for filename in itertools.chain(ffiles, fsubfolders):
             to_match = os.path.join(root, filename) if path_match else filename
             smatch = compare(to_match)
             if smatch:

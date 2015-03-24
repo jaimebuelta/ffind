@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 ''' Search for a file name in the specified dir (default current one) '''
+from __future__ import print_function
 import os
 import sys
 import re
@@ -12,7 +13,11 @@ except ImportError:
     from backports import argparse
 
 import pkg_resources  # part of setuptools
-VERSION = pkg_resources.require('ffind')[0].version
+try:
+    VERSION = pkg_resources.require('ffind')[0].version
+except:
+    # Default if not installed yet
+    VERSION = 0.7
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

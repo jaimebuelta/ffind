@@ -200,7 +200,7 @@ def parse_params_and_search():
     )
     parser.add_argument('-p',
                         action='store_true',
-                        help='match whole path, not only name of files',
+                        help='Match whole path, not only name of files',
                         dest='path_match',
                         default=False)
     parser.add_argument('--nocolor',
@@ -245,14 +245,14 @@ def parse_params_and_search():
     parser.add_argument('--ignore-vcs',
                         action='store_true',
                         dest='ignore_vcs',
-                        help='ignore version control system files and '
+                        help='Ignore version control system files and '
                              'directories',
                         default=False)
 
     parser.add_argument('-f',
                         action='store_true',
                         dest='fuzzy',
-                        help='experimental fuzzy search. '
+                        help='Experimental fuzzy search. '
                              'Increases the matches, use with care. '
                              'Combining it with regex may give crazy results',
                         default=False)

@@ -1,0 +1,1 @@
+recursive-include man_pages *.1 *.html

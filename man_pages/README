@@ -1,0 +1,11 @@
+This manpages are just reformatted from the README.md using md2man utility (https://github.com/sunaku/md2man)
+
+md2man-roff README.md > man_pages/ffind.1
+md2man-html README.md > man_pages/ffind.html
+
+There is not a easy, cross-platform way to install man pages through the distutils.
+
+Copy the man file to /usr/share/man path or where the man pages of your system
+are located. To check the MANPATH, use man --path
+
+TODO: Render and install the man files automatically

@@ -1,5 +1,30 @@
 ''' Setup / installation script '''
 from distutils.core import setup
+from distutils.command.install import install
+import os
+import subprocess
+
+
+def abspath(path):
+    """A method to determine absolute path
+    for a relative path inside project's directory."""
+
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
+
+
+class ff_install(install):
+
+    def run(self):
+
+        man_dir = abspath("./man_pages/")
+
+        output = subprocess.Popen([os.path.join(man_dir, "install.sh")],
+                stdout=subprocess.PIPE,
+                cwd=man_dir,
+                env=dict({"PREFIX": self.prefix},
+                         **dict(os.environ))).communicate()[0]
+        print output
+
 
 setup(
     # metadata
@@ -22,4 +47,5 @@ setup(
     keywords=['searching', 'file system'],
     packages=['ffind', 'ffind.backports'],
     scripts=['scripts/ffind'],
+    cmdclass={"install": ff_install},
 )

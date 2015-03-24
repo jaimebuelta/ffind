@@ -3,6 +3,7 @@
 import os
 import sys
 import re
+import itertools
 # Try to load argparse and if it doesn't exist load the backported version
 # from ffind package
 try:
@@ -43,64 +44,119 @@ VCS_FILES = ('=RELEASE-ID',
              '.gitignore',)
 
 
-def search(directory, file_pattern, path_match,
-           follow_symlinks=True, output=True, colored=True,
-           ignore_hidden=True, delete=False, exec_command=False,
-           ignore_case=False, ignore_vcs=False):
-    '''
-        Search the files matching the pattern.
-        The files will be returned as a list, and can be optionally printed
-    '''
-
+def create_comparison(file_pattern, ignore_case):
+    ''' Return the adequate comparison (regex or simple) '''
     if ignore_case:
         pattern = re.compile(file_pattern, re.IGNORECASE)
     else:
         pattern = re.compile(file_pattern)
 
-    results = []
+    def regex_compare(to_match):
+        match = re.search(pattern, to_match)
+        if match:
+            smatch = [to_match[:match.start()],
+                      to_match[match.start(): match.end()],
+                      to_match[match.end():]]
+            return smatch
+
+    # Check if is a proper regex (contains a char different from [a-zA-Z0-9])
+    if re.search(r'[^a-zA-Z0-9]', file_pattern):
+        return regex_compare
+
+    # We can go with a simplified comparison
+    if ignore_case:
+        file_pattern = file_pattern.lower()
+
+        def simple_compare_case_insensitive(to_match):
+            if file_pattern in to_match.lower():
+                return regex_compare(to_match)
+        return simple_compare_case_insensitive
+
+    def simple_compare(to_match):
+        if file_pattern in to_match:
+            return regex_compare(to_match)
+
+    return simple_compare
+
+
+def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
+    '''
+    Create a generator to return subfolders to search, removing the
+    ones to not search from the original list, to avoid keep
+    walking them
+    '''
+
+    for folder in sub_folders:
+        if ignore_hidden and folder.startswith('.'):
+            sub_folders.remove(folder)
+        elif ignore_vcs and folder in VCS_DIRS:
+            sub_folders.remove(folder)
+        else:
+            yield folder
+
+
+def filtered_files(files, ignore_hidden, ignore_vcs):
+    '''
+    Create a generator to return the filtered files
+    '''
+    for f in files:
+        if ignore_hidden and f.startswith('.'):
+            continue
+        if ignore_vcs and f in VCS_FILES:
+            continue
+
+        yield f
+
+
+def search(directory, file_pattern, path_match,
+           follow_symlinks=True, output=True, colored=True,
+           ignore_hidden=True, delete=False, exec_command=False,
+           ignore_case=False, ignore_vcs=False, return_results=False):
+    '''
+        Search the files matching the pattern.
+        The files will be returned as a list, and can be optionally printed
+    '''
+
+    # Create the compare function
+    compare = create_comparison(file_pattern, ignore_case)
+
+    if return_results:
+        results = []
 
     for root, sub_folders, files in os.walk(directory, topdown=True,
                                             followlinks=follow_symlinks):
 
-        # Ignore hidden directories unless explicitly told not to
-        if ignore_hidden:
-            sub_folders[:] = [folder for folder in sub_folders
-                              if not folder.startswith('.')]
-            files[:] = [file for file in files if not file.startswith('.')]
-
-        # Ignore VCS directories
-        if ignore_vcs:
-            sub_folders[:] = [folder for folder in sub_folders
-                              if folder not in VCS_DIRS]
-            files[:] = [file for file in files if file not in VCS_FILES]
+        # Ignore hidden and VCS directories.
+        fsubfolders = filtered_subfolders(sub_folders, ignore_hidden,
+                                          ignore_vcs)
+        ffiles = filtered_files(files, ignore_hidden, ignore_vcs)
 
         # Search in files and subfolders
-        for filename in files + sub_folders:
-            full_filename = os.path.join(root, filename)
-            to_match = full_filename if path_match else filename
-            match = re.search(pattern, to_match)
-            if match:
-                # Split the match to be able to colorize it
-                # prefix, matched_pattern, sufix
-                smatch = [to_match[:match.start()],
-                          to_match[match.start(): match.end()],
-                          to_match[match.end():]]
+        for filename in itertools.chain(ffiles, fsubfolders):
+            to_match = os.path.join(root, filename) if path_match else filename
+            smatch = compare(to_match)
+            if smatch:
                 if not path_match:
                     # Add the fullpath to the prefix
                     smatch[0] = os.path.join(root, smatch[0])
 
                 if delete:
+                    full_filename = os.path.join(root, filename)
                     delete_file(full_filename)
 
                 elif exec_command:
+                    full_filename = os.path.join(root, filename)
                     execute_command(exec_command[0], full_filename)
 
                 elif output:
                     print_match(smatch, colored)
 
-                results.append(full_filename)
+                if return_results:
+                    full_filename = os.path.join(root, filename)
+                    results.append(full_filename)
 
-    return results
+    if return_results:
+        return results
 
 
 def print_match(splitted_match, colored, color=RED_CHARACTER):
@@ -111,7 +167,7 @@ def print_match(splitted_match, colored, color=RED_CHARACTER):
     else:
         colored_output = splitted_match
 
-    print (''.join(colored_output))
+    print(''.join(colored_output))
 
 
 def delete_file(full_filename):
@@ -120,8 +176,8 @@ def delete_file(full_filename):
             os.removedirs(full_filename)
         else:
             os.remove(full_filename)
-    except Exception as e:
-        print "cannot delete: %s" % str(e)
+    except Exception as err:
+        print("cannot delete: {error}".format(error=err))
 
 
 def execute_command(command_template, full_filename):

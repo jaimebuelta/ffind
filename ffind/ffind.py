@@ -120,7 +120,7 @@ def filtered_files(files, ignore_hidden, ignore_vcs):
 def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
            ignore_hidden=True, delete=False, exec_command=False,
-           ignore_case=False, ignore_vcs=False, return_results=False,
+           ignore_case=False, ignore_vcs=False, return_results=True,
            fuzzy=False):
     '''
         Search the files matching the pattern.
@@ -287,7 +287,8 @@ def parse_params_and_search():
            ignore_case=ignore_case,
            exec_command=args.exec_command,
            ignore_vcs=args.ignore_vcs,
-           fuzzy=args.fuzzy)
+           fuzzy=args.fuzzy,
+           return_results=False)
 
 
 def run():

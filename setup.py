@@ -16,6 +16,8 @@ class ff_install(install):
 
     def run(self):
 
+        install.run(self)
+
         man_dir = abspath("./man_pages/")
 
         output = subprocess.Popen([os.path.join(man_dir, "install.sh")],

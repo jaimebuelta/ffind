@@ -5,7 +5,7 @@ md2man-html README.md > man_pages/ffind.html
 
 There is not a easy, cross-platform way to install man pages through the distutils.
 
-The install script copies the man file to /usr/share/man path
-Be careful as this may not be in the man path. To check the MANPATH, use man --path
+The install script copies the man file to the first directory on manpath
+To check the MANPATH, use man --path or manpath command
 
 TODO: Render the man files automatically

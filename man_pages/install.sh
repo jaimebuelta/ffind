@@ -1,6 +1,7 @@
 #!/bin/sh
 
-MAN_PREFIX="/usr/share/man"
+# Set the first element of the manpath
+MAN_PREFIX=`manpath | tr ":" "\n" | head -1`
 
 for i in *.1 ; do
 	section=`echo ${i}|sed 's/.*\([0-9]\).*/\1/'`

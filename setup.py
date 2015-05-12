@@ -1,10 +1,10 @@
+from __future__ import print_function
 ''' Setup / installation script '''
+
 from distutils.core import setup
 from distutils.command.install import install
 import os
 import subprocess
-
-from future import print_function
 
 
 def abspath(path):

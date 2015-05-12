@@ -25,7 +25,7 @@ class ff_install(install):
                 cwd=man_dir,
                 env=dict({"PREFIX": self.prefix},
                          **dict(os.environ))).communicate()[0]
-        print output
+        print(output)
 
 
 setup(

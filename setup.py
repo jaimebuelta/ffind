@@ -4,6 +4,8 @@ from distutils.command.install import install
 import os
 import subprocess
 
+from future import print_function
+
 
 def abspath(path):
     """A method to determine absolute path

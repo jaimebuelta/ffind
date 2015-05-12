@@ -23,6 +23,7 @@ class ff_install(install):
         output = subprocess.Popen([os.path.join(man_dir, "install.sh")],
                 stdout=subprocess.PIPE,
                 cwd=man_dir,
+                universal_newlines=True,
                 env=dict({"PREFIX": self.prefix},
                          **dict(os.environ))).communicate()[0]
         print(output)

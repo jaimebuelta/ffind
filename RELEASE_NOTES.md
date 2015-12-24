@@ -1,3 +1,7 @@
+Version 0.9 (2015/12/24)
+===
+
+  - Keep the code compatible with Python3
 
 Version 0.8 (2015/05/09)
 ===

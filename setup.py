@@ -1,7 +1,8 @@
 from __future__ import print_function
 ''' Setup / installation script '''
 
-from distutils.core import setup
+#from distutils.core import setup
+from setuptools import setup
 from distutils.command.install import install
 import os
 import subprocess
@@ -36,7 +37,7 @@ setup(
     name='ffind',
     description='Sane replacement for command line file search',
     license='MIT',
-    version='0.9',
+    version='0.9.1',
     author='Jaime Buelta',
     author_email='jaime.buelta@gmail.com',
     url='https://github.com/jaimebuelta/ffind',

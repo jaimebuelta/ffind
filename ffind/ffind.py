@@ -17,7 +17,7 @@ try:
     VERSION = pkg_resources.require('ffind')[0].version
 except:
     # Default if not installed yet
-    VERSION = 0.9
+    VERSION = '0.9.1'
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

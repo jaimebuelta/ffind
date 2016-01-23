@@ -1,9 +1,13 @@
 from __future__ import print_function
 ''' Setup / installation script '''
 
-#from distutils.core import setup
-from setuptools import setup
-from distutils.command.install import install
+try:
+    from setuptools import setup
+    from setuptools.command.install import install
+except ImportError:
+    from distutils.core import setup
+    from distutils.command.install import install
+
 import os
 import subprocess
 

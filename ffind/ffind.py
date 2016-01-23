@@ -49,16 +49,32 @@ VCS_FILES = ('=RELEASE-ID',
              '.gitignore',)
 
 
+class WrongPattern(Exception):
+    pass
+
+
 def create_comparison(file_pattern, ignore_case, fuzzy):
     ''' Return the adequate comparison (regex or simple) '''
     if fuzzy:
         # Generate a pattern to fuzzy match
         file_pattern = '.*?'.join(f for f in file_pattern)
 
-    if ignore_case:
-        pattern = re.compile(file_pattern, re.IGNORECASE)
-    else:
-        pattern = re.compile(file_pattern)
+    try:
+        if ignore_case:
+            pattern = re.compile(file_pattern, re.IGNORECASE)
+        else:
+            pattern = re.compile(file_pattern)
+    except re.error:
+        msg = (
+        '{red}Sorry, the expression {pattern} is incorrect.{no_color}\n'
+        'Remember that this should be a regular expression.\n'
+        '(https://docs.python.org/howto/regex.html)\n'
+        'If you are trying something "*py" for "Everyfile that ends with py"\n'
+        'you can use just "py" or "py$"\n'
+        )
+        raise WrongPattern(msg.format(pattern=file_pattern,
+                                      red=RED_CHARACTER,
+                                      no_color=NO_COLOR))
 
     def regex_compare(to_match):
         match = re.search(pattern, to_match)
@@ -296,6 +312,8 @@ def run():
         parse_params_and_search()
     except KeyboardInterrupt:
         pass
+    except WrongPattern as err:
+        print(err)
 
 
 if __name__ == '__main__':

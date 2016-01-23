@@ -137,10 +137,13 @@ def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
            ignore_hidden=True, delete=False, exec_command=False,
            ignore_case=False, ignore_vcs=False, return_results=True,
-           fuzzy=False):
+           fuzzy=False, return_exec_result=False):
     '''
         Search the files matching the pattern.
         The files will be returned as a list, and can be optionally printed
+
+        if return_exec_result is True in no return_results are specified,
+        the function will return 1 if any execution has been wrong
     '''
 
     # Create the compare function
@@ -148,6 +151,8 @@ def search(directory, file_pattern, path_match,
 
     if return_results:
         results = []
+
+    exec_result = 0
 
     for root, sub_folders, files in os.walk(directory, topdown=True,
                                             followlinks=follow_symlinks):
@@ -172,7 +177,8 @@ def search(directory, file_pattern, path_match,
 
                 elif exec_command:
                     full_filename = os.path.join(root, filename)
-                    execute_command(exec_command[0], full_filename)
+                    if execute_command(exec_command[0], full_filename):
+                        exec_result = 1
 
                 elif output:
                     print_match(smatch, colored)
@@ -183,6 +189,8 @@ def search(directory, file_pattern, path_match,
 
     if return_results:
         return results
+    elif return_exec_result:
+        return exec_result
 
 
 def print_match(splitted_match, colored, color=RED_CHARACTER):
@@ -212,7 +220,11 @@ def execute_command(command_template, full_filename):
     else:
         command = command_template + " " + full_filename
 
-    os.system(command)
+    result = os.system(command)
+    print('result', result)
+    if result:
+        return 1
+    return 0
 
 
 def parse_params_and_search():
@@ -260,7 +272,10 @@ def parse_params_and_search():
                         metavar=('"command"'),
                         help='Execute the given command with the file found '
                              "as argument. The string '{}' will be replaced "
-                             'with the current file name being processed',
+                             'with the current file name being processed. '
+                             'If this option is used, ffind will return a '
+                             'status code of 0 if all the executions return '
+                             '0, and 1 otherwise',
                         default=False)
 
     parser.add_argument('--ignore-vcs',
@@ -293,18 +308,20 @@ def parse_params_and_search():
     lowercase_pattern = args.filepattern == args.filepattern.lower()
     ignore_case = not args.case_sensitive and lowercase_pattern
 
-    search(directory=args.dir,
-           file_pattern=args.filepattern,
-           path_match=args.path_match,
-           colored=args.colored,
-           follow_symlinks=args.follow_symlinks,
-           ignore_hidden=args.ignore_hidden,
-           delete=args.delete,
-           ignore_case=ignore_case,
-           exec_command=args.exec_command,
-           ignore_vcs=args.ignore_vcs,
-           fuzzy=args.fuzzy,
-           return_results=False)
+    exec_result = search(directory=args.dir,
+                         file_pattern=args.filepattern,
+                         path_match=args.path_match,
+                         colored=args.colored,
+                         follow_symlinks=args.follow_symlinks,
+                         ignore_hidden=args.ignore_hidden,
+                         delete=args.delete,
+                         ignore_case=ignore_case,
+                         exec_command=args.exec_command,
+                         return_exec_result=True,
+                         ignore_vcs=args.ignore_vcs,
+                         fuzzy=args.fuzzy,
+                         return_results=False)
+    exit(exec_result)
 
 
 def run():
@@ -314,6 +331,7 @@ def run():
         pass
     except WrongPattern as err:
         print(err)
+        exit(1)
 
 
 if __name__ == '__main__':

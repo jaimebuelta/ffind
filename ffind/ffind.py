@@ -4,7 +4,9 @@ from __future__ import print_function
 import os
 import sys
 import re
+import runpy
 import itertools
+
 # Try to load argparse and if it doesn't exist load the backported version
 # from ffind package
 try:
@@ -137,7 +139,8 @@ def search(directory, file_pattern, path_match,
            follow_symlinks=True, output=True, colored=True,
            ignore_hidden=True, delete=False, exec_command=False,
            ignore_case=False, ignore_vcs=False, return_results=True,
-           fuzzy=False, return_exec_result=False):
+           fuzzy=False, return_exec_result=False, run_module_command=False,
+           program=False):
     '''
         Search the files matching the pattern.
         The files will be returned as a list, and can be optionally printed
@@ -171,20 +174,27 @@ def search(directory, file_pattern, path_match,
                     # Add the fullpath to the prefix
                     smatch[0] = os.path.join(root, smatch[0])
 
+                full_filename = os.path.join(root, filename)
+
                 if delete:
-                    full_filename = os.path.join(root, filename)
                     delete_file(full_filename)
 
                 elif exec_command:
-                    full_filename = os.path.join(root, filename)
                     if execute_command(exec_command[0], full_filename):
+                        exec_result = 1
+
+                elif run_module_command:
+                    if run_module(run_module_command, full_filename):
+                        exec_result = 1
+
+                elif program:
+                    if execute_python_string(program, full_filename):
                         exec_result = 1
 
                 elif output:
                     print_match(smatch, colored)
 
                 if return_results:
-                    full_filename = os.path.join(root, filename)
                     results.append(full_filename)
 
     if return_results:
@@ -227,6 +237,43 @@ def execute_command(command_template, full_filename):
     return 0
 
 
+def execute_python_string(program, full_filename):
+    try:
+        exec(program, {}, {'filename': full_filename})
+        result = 0
+    except Exception as e:
+        print(e)
+        result = 1
+
+    return result
+
+
+def run_module(module_invocation, full_filename):
+    old_argv = sys.argv
+    result = 0
+
+    module_name, *args = module_invocation.split()
+
+    if args:
+        args = [arg.replace('{}', full_filename) for arg in args]
+    else:
+        args = [full_filename]
+
+    sys.argv = [module_name] + args
+
+    try:
+        runpy.run_module(module_name, run_name='__main__')
+    except SystemExit as e:
+        result = e.code
+    except Exception as e:
+        print(e)
+        result = 1
+
+    sys.argv = old_argv
+
+    return result
+
+
 def parse_params_and_search():
     parser = argparse.ArgumentParser(
         description='Search file name in directory tree'
@@ -260,13 +307,15 @@ def parse_params_and_search():
                              'patterns are case insensitive',
                         default=False)
 
-    parser.add_argument('--delete',
+    action = parser.add_mutually_exclusive_group()
+
+    action.add_argument('--delete',
                         action='store_true',
                         dest='delete',
                         help='Delete files found',
                         default=False)
 
-    parser.add_argument('--exec',
+    action.add_argument('--exec',
                         dest='exec_command',
                         nargs=1,
                         metavar=('"command"'),
@@ -276,6 +325,27 @@ def parse_params_and_search():
                              'If this option is used, ffind will return a '
                              'status code of 0 if all the executions return '
                              '0, and 1 otherwise',
+                        default=False)
+
+    action.add_argument('--module',
+                        dest='run_module',
+                        metavar=('"module_name args"'),
+                        help='Execute the given module with the file found '
+                             "as argument. The string '{}' will be replaced "
+                             'with the current file name being processed. '
+                             'If this option is used, ffind will return a '
+                             'status code of 0 if all the executions return '
+                             '0, and 1 otherwise.  Only SystemExit is caught',
+                        default=False)
+
+    action.add_argument('--command',
+                        dest='program',
+                        metavar=('"program"'),
+                        help='Execute the given python program with the file '
+                             "found placed in local variable 'filename'. "
+                             'If this option is used, ffind will return a '
+                             'status code of 1 if any exceptions occur, '
+                             'and 0 otherwise.  SystemExit is not caught',
                         default=False)
 
     parser.add_argument('--ignore-vcs',
@@ -320,7 +390,10 @@ def parse_params_and_search():
                          return_exec_result=True,
                          ignore_vcs=args.ignore_vcs,
                          fuzzy=args.fuzzy,
-                         return_results=False)
+                         return_results=False,
+                         run_module_command=args.run_module,
+                         program=args.program,
+                         )
     exit(exec_result)
 
 

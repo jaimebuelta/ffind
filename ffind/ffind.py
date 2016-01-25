@@ -221,7 +221,6 @@ def execute_command(command_template, full_filename):
         command = command_template + " " + full_filename
 
     result = os.system(command)
-    print('result', result)
     if result:
         return 1
     return 0

@@ -251,7 +251,8 @@ def run_module(module_invocation, full_filename):
     old_argv = sys.argv
     result = 0
 
-    module_name, *args = module_invocation.split()
+    args = module_invocation.split()
+    module_name, args = args[0], args[1:]
 
     if args:
         args = [arg.replace('{}', full_filename) for arg in args]

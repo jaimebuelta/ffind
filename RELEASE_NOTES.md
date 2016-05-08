@@ -1,3 +1,9 @@
+Version 1.0 (2016/05/08)
+===
+  - Able to execute Python modules  and scripts directly
+  - Reporting errors improvements
+  - Add Travis CI testing
+
 Version 0.9 (2015/12/24)
 ===
 

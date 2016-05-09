@@ -41,7 +41,7 @@ setup(
     name='ffind',
     description='Sane replacement for command line file search',
     license='MIT',
-    version='1.0.0',
+    version='1.0.1',
     author='Jaime Buelta',
     author_email='jaime.buelta@gmail.com',
     url='https://github.com/jaimebuelta/ffind',

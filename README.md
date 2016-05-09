@@ -1,4 +1,4 @@
-ffind v1.0.1 - A sane replacement for command line file search
+ffind v1.0.2 - A sane replacement for command line file search
 ===
 
 *Info:* An utility to search files recursively on a dir.

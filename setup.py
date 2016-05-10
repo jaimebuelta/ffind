@@ -45,7 +45,7 @@ setup(
     author='Jaime Buelta',
     author_email='jaime.buelta@gmail.com',
     url='https://github.com/jaimebuelta/ffind',
-    download_url='https://github.com/jaimebuelta/ffind/tarball/0.9',
+    download_url='https://github.com/jaimebuelta/ffind/tarball/1.0.2',
     platforms='Cross Platform',
     classifiers=[
         'Programming Language :: Python :: 2',

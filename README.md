@@ -18,9 +18,9 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 - Ignores hidden directories (directories starting with .) by default, but this can be disabled
 - Can ignore source control common directories
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
-- Requires python2.7
-- Can delete match files
-- Can execute a command on match files
+- Works in python2.7 and python3. **It is recommended in Python 3.5 or later due performance improvements. It's much faster!**
+- Can delete matched files
+- Can execute a command on matched files
 - Experimental fuzzy search
 
 Common uses:

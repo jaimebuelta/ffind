@@ -85,3 +85,12 @@ Manual Install
 ---
 
 python setup.py install
+
+Test
+---
+It requires to install [cram](https://bitheap.org/cram/) (it can be installed with `pip install cram`)
+
+To run all the tests, run `make test`. This runs the tests on both Python 2 and Python 3. Running just
+`make` runs the test for Python 3.
+
+The tests are under the `tests` directory, more tests are welcome.

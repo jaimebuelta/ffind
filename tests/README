@@ -1,0 +1,7 @@
+cram tests are very easy, as they replicate the usual run of ffind.
+
+The current state, it sets up some files in the setup.sh script and then run an ffind command
+with an expected result. Finally, there's a clean up stage removing the files.
+
+Feel free to increase the test coverage, it's very easy to copy and adapt one of the current
+tests. More coverage will be greatly appreciated!

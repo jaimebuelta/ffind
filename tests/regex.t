@@ -12,4 +12,4 @@ Run test
 
 Clean up
  
-  $ . $TESTDIR/cleanup.sh
+  $ rm -rf ./test_dir

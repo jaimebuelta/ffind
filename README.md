@@ -5,6 +5,9 @@ ffind v1.0.2 - A sane replacement for command line file search
 
 *Author:* Jaime Buelta
 
+[![Build Status](https://travis-ci.org/jaimebuelta/ffind.svg?branch=master)](https://travis-ci.org/jaimebuelta/ffind)
+[![Coverage Status](https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master)](https://coveralls.io/github/jaimebuelta/ffind?branch=master)
+
 About
 ---
 

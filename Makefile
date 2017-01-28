@@ -7,6 +7,10 @@ test_python3:
 test_python2:
 	PYTHON=python cram -v tests/*.t
 
+# Run the tests in pypy
+test_pypy:
+	PYTHON=pypy cram -v tests/*.t
+
 # For travis CI
 travis:
 	rm -f $(shell pwd)/.coverage

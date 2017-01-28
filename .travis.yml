@@ -9,7 +9,7 @@ python:
   - pypy
   - pypy3
 before_script:
-  - pip install pyflakes
+  - pip install pyflakes cram
 script:
   - pyflakes *.py ffind/*.py
   - python setup.py install

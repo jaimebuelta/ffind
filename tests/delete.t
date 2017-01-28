@@ -15,5 +15,5 @@ Run test
   $ $PYTHON $TESTDIR/../ffind/ffind.py --delete third_level
   $ $PYTHON $TESTDIR/../ffind/ffind.py third_level
   $ $PYTHON $TESTDIR/../ffind/ffind.py --delete second_level
-  cannot delete: [Errno 66] Directory not empty: './test_dir/second_level'
+  cannot delete: [Errno *] Directory not empty: './test_dir/second_level' (glob)
   [1]

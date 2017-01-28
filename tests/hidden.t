@@ -4,7 +4,9 @@ Setup
 
 Run test
 
-  $ $PYTHON $TESTDIR/../ffind/ffind.py --hidden config
+Ensure consistent sorting, as this depends on the filesystem
+
+  $ $PYTHON $TESTDIR/../ffind/ffind.py --hidden config | sort
   ./test_dir/.git/config
   ./test_dir/second_level/config
   $ $PYTHON $TESTDIR/../ffind/ffind.py config

@@ -7,5 +7,9 @@ test_python3:
 test_python2:
 	PYTHON=python cram -v tests/*.t
 
+# For travis CI
+travis:
+	PYTHON=python cram -v tests/*.t
+
 # Run the tests twice in Python 2 and 3
 test: test_python3 test_python2

@@ -5,6 +5,7 @@ python:
   - 3.3
   - 3.4
   - 3.5
+  - 3.6
   - pypy
   - pypy3
 before_script:
@@ -13,3 +14,4 @@ script:
   - pyflakes *.py ffind/*.py
   - python setup.py install
   - ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes
+  - make travis

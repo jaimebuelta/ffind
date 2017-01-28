@@ -9,7 +9,7 @@ test_python2:
 
 # For travis CI
 travis:
-	PYTHON=python cram -v tests/*.t
+	COVERAGE_FILE='$(shell pwd)/.coverage' PYTHON='coverage run -a ' cram -v tests/*.t
 
 # Run the tests twice in Python 2 and 3
 test: test_python3 test_python2

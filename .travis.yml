@@ -9,9 +9,11 @@ python:
   - pypy
   - pypy3
 before_script:
-  - pip install pyflakes cram
+  - pip install pyflakes cram python-coveralls
 script:
   - pyflakes *.py ffind/*.py
   - python setup.py install
   - ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes
   - make travis
+after_success:
+  - coveralls

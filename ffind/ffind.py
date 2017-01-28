@@ -115,7 +115,7 @@ def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
     '''
 
     # Create a copy to iterate to avoid iteration problems
-    for folder in copy(sub_folders):
+    for folder in sorted(copy(sub_folders)):
         if ignore_hidden and folder.startswith('.'):
             sub_folders.remove(folder)
         elif ignore_vcs and folder in VCS_DIRS:

@@ -2,3 +2,5 @@
 *.swo
 *.pyc
 build
+.coverage
+htmlcov

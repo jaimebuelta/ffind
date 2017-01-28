@@ -138,7 +138,7 @@ def filtered_files(files, ignore_hidden, ignore_vcs):
 
 
 def search(directory, file_pattern, path_match,
-           follow_symlinks=True, output=True, colored=True,
+           follow_symlinks=True, output=False, colored=False,
            ignore_hidden=True, delete=False, exec_command=False,
            ignore_case=False, ignore_vcs=False, return_results=True,
            fuzzy=False, return_exec_result=False, run_module_command=False,
@@ -179,7 +179,8 @@ def search(directory, file_pattern, path_match,
                 full_filename = os.path.join(root, filename)
 
                 if delete:
-                    delete_file(full_filename)
+                    if delete_file(full_filename):
+                        exec_result = 1
 
                 elif exec_command:
                     if execute_command(exec_command[0], full_filename):
@@ -224,6 +225,7 @@ def delete_file(full_filename):
             os.remove(full_filename)
     except Exception as err:
         print("cannot delete: {error}".format(error=err))
+        return 1
 
 
 def execute_command(command_template, full_filename):
@@ -365,6 +367,12 @@ def parse_params_and_search():
                              'Combining it with regex may give crazy results',
                         default=False)
 
+    parser.add_argument('--return-results',
+                        action='store_true',
+                        dest='return_results',
+                        help='For testing purposes only. Please ignore',
+                        default=False)
+
     parser.add_argument('--version', action='version',
                         version='%(prog)s {version}'.format(version=VERSION))
 
@@ -383,6 +391,7 @@ def parse_params_and_search():
     exec_result = search(directory=args.dir,
                          file_pattern=args.filepattern,
                          path_match=args.path_match,
+                         output=True,
                          colored=args.colored,
                          follow_symlinks=args.follow_symlinks,
                          ignore_hidden=args.ignore_hidden,
@@ -392,10 +401,13 @@ def parse_params_and_search():
                          return_exec_result=True,
                          ignore_vcs=args.ignore_vcs,
                          fuzzy=args.fuzzy,
-                         return_results=False,
+                         return_results=args.return_results,
                          run_module_command=args.run_module,
                          program=args.program,
                          )
+    if args.return_results:
+        exit(0)
+
     exit(exec_result)
 
 

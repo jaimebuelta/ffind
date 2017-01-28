@@ -6,6 +6,7 @@ import sys
 import re
 import runpy
 import itertools
+from copy import copy
 
 # Try to load argparse and if it doesn't exist load the backported version
 # from ffind package
@@ -113,7 +114,8 @@ def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
     walking them
     '''
 
-    for folder in sub_folders:
+    # Create a copy to iterate to avoid iteration problems
+    for folder in copy(sub_folders):
         if ignore_hidden and folder.startswith('.'):
             sub_folders.remove(folder)
         elif ignore_vcs and folder in VCS_DIRS:

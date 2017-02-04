@@ -9,11 +9,12 @@ python:
   - pypy
   - pypy3
 before_script:
-  - pip install pyflakes cram python-coveralls
+  - pip install pyflakes cram python-coveralls codecov
 script:
   - pyflakes *.py ffind/*.py
   - python setup.py install
   - ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes
   - make travis
+  - codecov
 after_success:
   - coveralls

@@ -7,6 +7,8 @@ ffind v1.0.4 - A sane replacement for command line file search
 
 [![Build Status](https://travis-ci.org/jaimebuelta/ffind.svg?branch=master)](https://travis-ci.org/jaimebuelta/ffind)
 [![Coverage Status](https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master)](https://coveralls.io/github/jaimebuelta/ffind?branch=master)
+[![Requirements Status](https://requires.io/github/jaimebuelta/ffind/requirements.svg?branch=master)](https://requires.io/github/jaimebuelta/ffind/requirements/?branch=master)
+[![PyPI version](https://badge.fury.io/py/ffind.svg)](https://badge.fury.io/py/ffind)
 
 About
 ---

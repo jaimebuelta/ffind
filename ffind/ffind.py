@@ -297,7 +297,7 @@ def parse_params_and_search():
                         help='Match whole path, not only name of files. '
                              'Set env variable FFIND_SEARCH_PATH to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         dest='path_match',
                         # default False
                         default=env_var)
@@ -309,7 +309,7 @@ def parse_params_and_search():
                         help='Do not display color. '
                              'Set env variable FFIND_NO_COLOR to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         # default True
                         default=not env_var)
 
@@ -322,7 +322,7 @@ def parse_params_and_search():
                              'infinite recursion) '
                              'Set env variable FFIND_NO_SYMLINK to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         # default True
                         default=not env_var)
 
@@ -333,7 +333,7 @@ def parse_params_and_search():
                         help='Do not ignore hidden directories. '
                              'Set env variable FFIND_SEARCH_HIDDEN to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         # default is True
                         default=not env_var)
 
@@ -345,7 +345,7 @@ def parse_params_and_search():
                              'patterns are case insensitive. '
                              'Set env variable FFIND_CASE_SENSITIVE to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         # default is False
                         default=env_var)
 
@@ -359,7 +359,7 @@ def parse_params_and_search():
                              'case sensitive.'
                              'Set env variable FFIND_CASE_INSENSITIVE to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         # default is False
                         default=env_var)
 
@@ -412,7 +412,7 @@ def parse_params_and_search():
                              'directories. '
                              'Set env variable FFIND_IGNORE_VCS to set '
                              'this automatically'
-                             '{}'.format('[SET]' if env_var else ''),
+                             '{0}'.format('[SET]' if env_var else ''),
                         # Default False
                         default=env_var)
 

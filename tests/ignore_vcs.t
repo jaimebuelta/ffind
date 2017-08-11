@@ -13,6 +13,7 @@ Run test
 
   $ $PYTHON $TESTDIR/../ffind/ffind.py --hidden gitignore
   ./test_dir/.gitignore
+  $ $PYTHON $TESTDIR/../ffind/ffind.py --ignore-vcs gitignore
 
 Env variable
 
@@ -23,3 +24,4 @@ Env variable
   ./test_dir/.venv/library
   $ FFIND_SEARCH_HIDDEN=1 $PYTHON $TESTDIR/../ffind/ffind.py gitignore
   ./test_dir/.gitignore
+  $ FFIND_IGNORE_VCS=1 $PYTHON $TESTDIR/../ffind/ffind.py gitignore

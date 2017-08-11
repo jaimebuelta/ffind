@@ -284,6 +284,9 @@ def run_module(module_invocation, full_filename):
 
 
 def parse_params_and_search():
+    '''
+    Process all cli parameters and call the search
+    '''
     parser = argparse.ArgumentParser(
         description='Search file name in directory tree'
     )
@@ -314,6 +317,14 @@ def parse_params_and_search():
                         dest='case_sensitive',
                         help='Force case sensitive. By default, all lowercase '
                              'patterns are case insensitive',
+                        default=False)
+    parser.add_argument('-i',
+                        action='store_true',
+                        dest='case_insensitive',
+                        help='Force case insensitive. This allows case '
+                             'insensitive for patterns with uppercase. '
+                             'If both -i and -c are set, the search will be '
+                             'case sensitive.',
                         default=False)
 
     action = parser.add_mutually_exclusive_group()
@@ -391,7 +402,12 @@ def parse_params_and_search():
         args.colored = False
 
     lowercase_pattern = args.filepattern == args.filepattern.lower()
-    ignore_case = not args.case_sensitive and lowercase_pattern
+    if args.case_sensitive:
+        ignore_case = False
+    elif args.case_insensitive:
+        ignore_case = True
+    else:
+        ignore_case = lowercase_pattern
 
     exec_result = search(directory=args.dir,
                          file_pattern=args.filepattern,
@@ -408,8 +424,8 @@ def parse_params_and_search():
                          fuzzy=args.fuzzy,
                          return_results=args.return_results,
                          run_module_command=args.run_module,
-                         program=args.program,
-                         )
+                         program=args.program)
+
     if args.return_results:
         exit(0)
 

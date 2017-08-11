@@ -4,6 +4,11 @@
 .PP
 \fIAuthor:\fP Jaime Buelta
 .PP
+[Build Status](https://travis\-ci.org/jaimebuelta/ffind.svg?branch=master) \[la]https://travis-ci.org/jaimebuelta/ffind\[ra]
+[Coverage Status](https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master) \[la]https://coveralls.io/github/jaimebuelta/ffind?branch=master\[ra]
+[Requirements Status](https://requires.io/github/jaimebuelta/ffind/requirements.svg?branch=master) \[la]https://requires.io/github/jaimebuelta/ffind/requirements/?branch=master\[ra]
+[PyPI version](https://badge.fury.io/py/ffind.svg) \[la]https://badge.fury.io/py/ffind\[ra]
+[codecov](https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg) \[la]https://codecov.io/gh/jaimebuelta/ffind\[ra]
 .SH About
 .PP
 Basically, replaces \fB\fCfind . \-name '*FILE_PATTERN*'\fR with \fB\fCffind.py FILE_PATTERN\fR
@@ -45,7 +50,7 @@ Common uses:
 .PP
 .RS
 .nf
-usage: ffind.py [\-h] [\-p] [\-\-nocolor] [\-\-nosymlinks] [\-\-hidden] [\-c]
+usage: ffind.py [\-h] [\-p] [\-\-nocolor] [\-\-nosymlinks] [\-\-hidden] [\-c]  [\-i]
             [\-\-delete | \-\-exec "command" | \-\-module "module_name args" | \-\-command "program"]
             [\-\-ignore\-vcs] [\-f] [\-\-version]
             [dir] filepattern
@@ -65,6 +70,9 @@ optional arguments:
   \-\-hidden              Do not ignore hidden directories
   \-c                    Force case sensitive. By default, all lowercase
                         patterns are case insensitive
+  \-i                    Force case insensitive. This allows case insensitive
+                        for patterns with uppercase. If both \-i and \-c are
+                        set, the search will be case sensitive.
   \-\-delete              Delete files found
   \-\-exec "command"      Execute the given command with the file found as
                         argument. The string '{}' will be replaced with the

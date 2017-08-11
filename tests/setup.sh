@@ -13,6 +13,7 @@ touch $TEST_DIR/second_level/.hidden
 touch $TEST_DIR/second_level/CVS
 mkdir $TEST_DIR/second_level/third_level
 mkdir $TEST_DIR/.git
+mkdir $TEST_DIR/.gitignore
 touch $TEST_DIR/.git/config
 touch $TEST_DIR/.git/library
 mkdir $TEST_DIR/.venv

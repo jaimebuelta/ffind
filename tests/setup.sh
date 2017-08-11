@@ -17,3 +17,5 @@ touch $TEST_DIR/.git/config
 touch $TEST_DIR/.git/library
 mkdir $TEST_DIR/.venv
 mkdir $TEST_DIR/.venv/library
+
+FFIND_SORT=1

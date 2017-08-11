@@ -37,6 +37,6 @@ Run the tests with environment variables
   $ FFIND_CASE_INSENSITIVE=1 $PYTHON $TESTDIR/../ffind/ffind.py STEST1
   ./test_dir/second_level/stest1.py
 
-  $ FFIND_CASE_SENSITIVE=1 FFIND_CASE_INSENSITIVE=1 PYTHON $TESTDIR/../ffind/ffind.py Test2
+  $ FFIND_CASE_SENSITIVE=1 FFIND_CASE_INSENSITIVE=1 $PYTHON $TESTDIR/../ffind/ffind.py Test2
   ./test_dir/Test2.py
   ./test_dir/second_level/sTest2.py

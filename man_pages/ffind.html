@@ -1,5 +1,8 @@
-<h1 id="ffind-v1-1-2-a-sane-replacement-for-command-line-file-search"><span class="md2man-title">ffind</span> <span class="md2man-section">v1.1.2</span> <span class="md2man-date">-</span> <span class="md2man-source">A</span> <span class="md2man-manual">sane</span> replacement for command line file search<a name="ffind-v1-1-2-a-sane-replacement-for-command-line-file-search" href="#ffind-v1-1-2-a-sane-replacement-for-command-line-file-search" class="md2man-permalink" title="permalink"></a></h1><p><em>Info:</em> An utility to search files recursively on a dir.</p><p><em>Author:</em> Jaime Buelta</p><p>
-<h2 id="about">About<a name="about" href="#about" class="md2man-permalink" title="permalink"></a></h2><p>Basically, replaces <code>find . -name &#39;*FILE_PATTERN*&#39;</code> with <code>ffind.py FILE_PATTERN</code></p>
+<h1 id="ffind-v1-1-2-a-sane-replacement-for-command-line-file-search"><span class="md2man-title">ffind</span> <span class="md2man-section">v1.1.2</span> <span class="md2man-date">-</span> <span class="md2man-source">A</span> <span class="md2man-manual">sane</span> replacement for command line file search<a name="ffind-v1-1-2-a-sane-replacement-for-command-line-file-search" href="#ffind-v1-1-2-a-sane-replacement-for-command-line-file-search" class="md2man-permalink" title="permalink"></a></h1><p><em>Info:</em> An utility to search files recursively on a dir.</p><p><em>Author:</em> Jaime Buelta</p><p><a href="https://travis-ci.org/jaimebuelta/ffind"><img src="https://travis-ci.org/jaimebuelta/ffind.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/jaimebuelta/ffind?branch=master"><img src="https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://requires.io/github/jaimebuelta/ffind/requirements/?branch=master"><img src="https://requires.io/github/jaimebuelta/ffind/requirements.svg?branch=master" alt="Requirements Status"></a>
+<a href="https://badge.fury.io/py/ffind"><img src="https://badge.fury.io/py/ffind.svg" alt="PyPI version"></a>
+<a href="https://codecov.io/gh/jaimebuelta/ffind"><img src="https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg" alt="codecov"></a></p><h2 id="about">About<a name="about" href="#about" class="md2man-permalink" title="permalink"></a></h2><p>Basically, replaces <code>find . -name &#39;*FILE_PATTERN*&#39;</code> with <code>ffind.py FILE_PATTERN</code></p>
 <ul>
 <li>Input filename maybe a regex</li>
 <li>Search recursively on current directory by default.</li>
@@ -19,7 +22,7 @@
 <li><code>ffind txt</code> to return all text files in current dir</li>
 <li><code>ffind ../other_dir txt</code> to return all text files under dir ../other<em>dir (or `ffind.py txt -d ../other</em>dir`)</li>
 </ul>
-<h2 id="all-options">All options<a name="all-options" href="#all-options" class="md2man-permalink" title="permalink"></a></h2><pre class="highlight plaintext"><code>usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]
+<h2 id="all-options">All options<a name="all-options" href="#all-options" class="md2man-permalink" title="permalink"></a></h2><pre class="highlight plaintext"><code>usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]  [-i]
             [--delete | --exec "command" | --module "module_name args" | --command "program"]
             [--ignore-vcs] [-f] [--version]
             [dir] filepattern
@@ -39,6 +42,9 @@ optional arguments:
   --hidden              Do not ignore hidden directories
   -c                    Force case sensitive. By default, all lowercase
                         patterns are case insensitive
+  -i                    Force case insensitive. This allows case insensitive
+                        for patterns with uppercase. If both -i and -c are
+                        set, the search will be case sensitive.
   --delete              Delete files found
   --exec "command"      Execute the given command with the file found as
                         argument. The string '{}' will be replaced with the

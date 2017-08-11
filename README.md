@@ -38,7 +38,7 @@ Common uses:
 All options
 ---
 
-    usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]
+    usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]  [-i]
                 [--delete | --exec "command" | --module "module_name args" | --command "program"]
                 [--ignore-vcs] [-f] [--version]
                 [dir] filepattern
@@ -58,6 +58,9 @@ All options
       --hidden              Do not ignore hidden directories
       -c                    Force case sensitive. By default, all lowercase
                             patterns are case insensitive
+      -i                    Force case insensitive. This allows case insensitive
+                            for patterns with uppercase. If both -i and -c are
+                            set, the search will be case sensitive.
       --delete              Delete files found
       --exec "command"      Execute the given command with the file found as
                             argument. The string '{}' will be replaced with the

@@ -1,6 +1,0 @@
-#!python
-
-from ffind import ffind
-
-if __name__ == '__main__':
-    ffind.run()

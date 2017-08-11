@@ -27,12 +27,13 @@ class ff_install(install):
 
         man_dir = abspath("./man_pages/")
 
-        output = subprocess.Popen([os.path.join(man_dir, "install.sh")],
-                stdout=subprocess.PIPE,
-                cwd=man_dir,
-                universal_newlines=True,
-                env=dict({"PREFIX": self.prefix},
-                         **dict(os.environ))).communicate()[0]
+        cmd = subprocess.Popen([os.path.join(man_dir, "install.sh")],
+                               stdout=subprocess.PIPE,
+                               cwd=man_dir,
+                               universal_newlines=True,
+                               env=dict({"PREFIX": self.prefix},
+                                        **dict(os.environ)))
+        output = cmd.communicate()[0]
         print(output)
 
 
@@ -41,11 +42,11 @@ setup(
     name='ffind',
     description='Sane replacement for command line file search',
     license='MIT',
-    version='1.1.2',
+    version='1.2.0',
     author='Jaime Buelta',
     author_email='jaime.buelta@gmail.com',
     url='https://github.com/jaimebuelta/ffind',
-    download_url='https://github.com/jaimebuelta/ffind/tarball/v1.1.2',
+    download_url='https://github.com/jaimebuelta/ffind/tarball/v1.2.0',
     platforms='Cross Platform',
     classifiers=[
         'Programming Language :: Python :: 2',
@@ -54,12 +55,11 @@ setup(
     install_requires=[
         'setuptools',
     ],
+    python_requires='>=2.6, >=3.3.*, <4',
     keywords=['searching', 'file system'],
     packages=['ffind', 'ffind.backports'],
     entry_points={
-          'console_scripts': [
-              'ffind = ffind.ffind:run'
-          ]
-      },
+        'console_scripts': ['ffind = ffind.ffind:run'],
+    },
     cmdclass={"install": ff_install},
 )

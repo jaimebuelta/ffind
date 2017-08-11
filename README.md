@@ -51,16 +51,23 @@ All options
 
     optional arguments:
       -h, --help            show this help message and exit
-      -p                    Match whole path, not only name of files
-      --nocolor             Do not display color
+      -p                    Match whole path, not only name of files. Set env
+                            variable FFIND_SEARCH_PATH to set this automatically
+      --nocolor             Do not display color. Set env variable FFIND_NO_COLOR
+                            to set this automatically
       --nosymlinks          Do not follow symlinks (following symlinks can lead to
-                            infinite recursion)
-      --hidden              Do not ignore hidden directories
+                            infinite recursion) Set env variable FFIND_NO_SYMLINK
+                            to set this automatically
+      --hidden              Do not ignore hidden directories. Set env variable
+                            FFIND_SEARCH_HIDDEN to set this automatically
       -c                    Force case sensitive. By default, all lowercase
-                            patterns are case insensitive
+                            patterns are case insensitive. Set env variable
+                            FFIND_CASE_SENSITIVE to set this automatically
       -i                    Force case insensitive. This allows case insensitive
                             for patterns with uppercase. If both -i and -c are
-                            set, the search will be case sensitive.
+                            set, the search will be case sensitive.Set env
+                            variable FFIND_CASE_INSENSITIVE to set this
+                            automatically
       --delete              Delete files found
       --exec "command"      Execute the given command with the file found as
                             argument. The string '{}' will be replaced with the
@@ -79,12 +86,37 @@ All options
                             used, ffind will return a status code of 1 if any
                             exceptions occur, and 0 otherwise. SystemExit is not
                             caught
-      --ignore-vcs          Ignore version control system files and directories
+      --ignore-vcs          Ignore version control system files and directories.
+                            Set env variable FFIND_IGNORE_VCS to set this
+                            automatically
       -f                    Experimental fuzzy search. Increases the matches, use
                             with care. Combining it with regex may give crazy
                             results
+      --return-results      For testing purposes only. Please ignore
       --version             show program's version number and exit
 
+Environment variables
+---
+
+Setting these environment variables, you'll set options by default. For example:
+
+    export FFIND_CASE_SENSITIVE=1
+    # equivalent to ffind -c something
+    ffind something 
+    FFIND_CASE_SENSITIVE=1 ffind something
+
+- FFIND_SORT: Return the results sorted. This is slower, and is mainly thought to ensure
+              consistency on the tests, as some filesystems may order files differently
+- FFIND_CASE_SENSITIVE: Search is case sensitive. Equivalent to -c flag
+- FFIND_CASE_INSENSITIVE: Search is case insensitive. Equivalent to -i flag.
+- FFIND_SEARCH_HIDDEN: Search in hidden directories. Equivalent to --hidden flag.
+- FFIND_SEARCH_PATH: Search in the whole path. Equivalent to -p flag.
+- FFIND_IGNORE_VCS: Ignore paths in version control. Equivalent to --ignore-vcs
+- FFIND_NO_SYMLINK: Do not follow symlinks. Equivalent to --nosymlinks flag.
+- FFIND_NO_COLOR: Do not show colors. Equivalent to --nocolor flag.
+
+If the environment is present, when calling ffind -h, the option will display [SET] at the end.
+ 
 
 Install
 ---

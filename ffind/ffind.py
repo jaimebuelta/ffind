@@ -290,42 +290,78 @@ def parse_params_and_search():
     parser = argparse.ArgumentParser(
         description='Search file name in directory tree'
     )
+
+    env_var = bool(os.environ.get('FFIND_SEARCH_PATH'))
     parser.add_argument('-p',
                         action='store_true',
-                        help='Match whole path, not only name of files',
+                        help='Match whole path, not only name of files. '
+                             'Set env variable FFIND_SEARCH_PATH to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
                         dest='path_match',
-                        default=False)
+                        # default False
+                        default=env_var)
+
+    env_var = bool(os.environ.get('FFIND_NO_COLOR'))
     parser.add_argument('--nocolor',
                         action='store_false',
                         dest='colored',
-                        help='Do not display color',
-                        default=True)
+                        help='Do not display color. '
+                             'Set env variable FFIND_NO_COLOR to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # default True
+                        default=not env_var)
+
+    env_var = bool(os.environ.get('FFIND_NO_SYMLINK'))
     parser.add_argument('--nosymlinks',
                         action='store_false',
                         dest='follow_symlinks',
                         help='Do not follow symlinks'
                              ' (following symlinks can lead to '
-                             'infinite recursion)',
-                        default=True)
+                             'infinite recursion) '
+                             'Set env variable FFIND_NO_SYMLINK to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # default True
+                        default=not env_var)
+
+    env_var = bool(os.environ.get('FFIND_SEARCH_HIDDEN'))
     parser.add_argument('--hidden',
                         action='store_false',
                         dest='ignore_hidden',
-                        help='Do not ignore hidden directories',
-                        default=True)
+                        help='Do not ignore hidden directories. '
+                             'Set env variable FFIND_SEARCH_HIDDEN to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # default is True
+                        default=not env_var)
+
+    env_var = bool(os.environ.get('FFIND_CASE_SENSITIVE'))
     parser.add_argument('-c',
                         action='store_true',
                         dest='case_sensitive',
                         help='Force case sensitive. By default, all lowercase '
-                             'patterns are case insensitive',
-                        default=False)
+                             'patterns are case insensitive. '
+                             'Set env variable FFIND_CASE_SENSITIVE to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # default is False
+                        default=env_var)
+
+    env_var = bool(os.environ.get('FFIND_CASE_INSENSITIVE'))
     parser.add_argument('-i',
                         action='store_true',
                         dest='case_insensitive',
                         help='Force case insensitive. This allows case '
                              'insensitive for patterns with uppercase. '
                              'If both -i and -c are set, the search will be '
-                             'case sensitive.',
-                        default=False)
+                             'case sensitive.'
+                             'Set env variable FFIND_CASE_INSENSITIVE to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # default is False
+                        default=env_var)
 
     action = parser.add_mutually_exclusive_group()
 
@@ -368,12 +404,17 @@ def parse_params_and_search():
                              'and 0 otherwise.  SystemExit is not caught',
                         default=False)
 
+    env_var = bool(os.environ.get('FFIND_IGNORE_VCS'))
     parser.add_argument('--ignore-vcs',
                         action='store_true',
                         dest='ignore_vcs',
                         help='Ignore version control system files and '
-                             'directories',
-                        default=False)
+                             'directories. '
+                             'Set env variable FFIND_IGNORE_VCS to set '
+                             'this automatically'
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # Default False
+                        default=env_var)
 
     parser.add_argument('-f',
                         action='store_true',

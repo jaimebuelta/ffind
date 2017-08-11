@@ -51,6 +51,8 @@ VCS_FILES = ('=RELEASE-ID',
              '.cvsignore',
              '.gitignore',)
 
+SORT_RESULT = bool(os.environ.get('FFIND_SORT', '0'))
+
 
 class WrongPattern(Exception):
     pass
@@ -161,10 +163,13 @@ def search(directory, file_pattern, path_match,
 
     for root, sub_folders, files in os.walk(directory, topdown=True,
                                             followlinks=follow_symlinks):
-
+        if SORT_RESULT:
+            sub_folders.sort()
+            files.sort()
         # Ignore hidden and VCS directories.
         fsubfolders = filtered_subfolders(sub_folders, ignore_hidden,
                                           ignore_vcs)
+
         ffiles = filtered_files(files, ignore_hidden, ignore_vcs)
 
         # Search in files and subfolders

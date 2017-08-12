@@ -15,6 +15,8 @@ Run test
   ./test_dir/.gitignore
   $ $PYTHON $TESTDIR/../ffind/ffind.py --ignore-vcs gitignore
 
+  $ $PYTHON $TESTDIR/../ffind/ffind.py --hidden --ignore-vcs gitignore
+
 Env variable
 
   $ FFIND_SEARCH_HIDDEN=1 $PYTHON $TESTDIR/../ffind/ffind.py lib

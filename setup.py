@@ -51,7 +51,7 @@ setup(
     install_requires=['setuptools'],
     python_requires='>=2.7, >=3.3.*, <4',
     keywords=['searching', 'file system'],
-    packages=['ffind', 'ffind.backports'],
+    packages=['ffind'],
     entry_points={
         'console_scripts': ['ffind = ffind.ffind:run'],
     },

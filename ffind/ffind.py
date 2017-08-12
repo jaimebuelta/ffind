@@ -8,13 +8,7 @@ import runpy
 import itertools
 from copy import copy
 
-# Try to load argparse and if it doesn't exist load the backported version
-# from ffind package
-try:
-    import argparse
-except ImportError:
-    from backports import argparse
-
+import argparse
 import pkg_resources  # part of setuptools
 try:
     VERSION = pkg_resources.require('ffind')[0].version

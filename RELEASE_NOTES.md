@@ -1,3 +1,14 @@
+Version 1.2 (2017/08/12)
+===
+  - Add configuration through environment variables
+  - Add option for case insentive search
+  - Use entrypoint instead of custom script
+
+Version 1.1 (2017/02/11)
+===
+  - Tests added
+  - More CI tools integration
+
 Version 1.0 (2016/05/08)
 ===
   - Able to execute Python modules  and scripts directly

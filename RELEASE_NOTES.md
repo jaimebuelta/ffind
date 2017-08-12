@@ -3,6 +3,7 @@ Version 1.2 (2017/08/12)
   - Add configuration through environment variables
   - Add option for case insentive search
   - Use entrypoint instead of custom script
+  - LAST VERSION TO SUPPORT PYTHON 2.6
 
 Version 1.1 (2017/02/11)
 ===

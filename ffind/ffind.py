@@ -416,13 +416,16 @@ def parse_params_and_search():
                         # Default False
                         default=env_var)
 
+    env_var = bool(os.environ.get('FFIND_FUZZY_SEARCH'))
     parser.add_argument('-f',
                         action='store_true',
                         dest='fuzzy',
                         help='Experimental fuzzy search. '
                              'Increases the matches, use with care. '
-                             'Combining it with regex may give crazy results',
-                        default=False)
+                             'Combining it with regex may give crazy results '
+                             '{0}'.format('[SET]' if env_var else ''),
+                        # Default False
+                        default=env_var)
 
     parser.add_argument('--return-results',
                         action='store_true',

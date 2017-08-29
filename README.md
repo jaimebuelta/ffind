@@ -14,15 +14,18 @@ ffind v1.2.0 - A sane replacement for command line file search
 About
 ---
 
-Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
+It allows quick and easy recursive search for files in the Unix command line. 
+Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties)
 
-- Input filename maybe a regex
+![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif)
+
+- Input filename may be a regex
 - Search recursively on current directory by default.
 - If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.
 - Regex can affect only the filename (default) or the full path.
 - Will print colorized output in glamorous red (default), except on redirected output.
-- Ignores hidden directories (directories starting with .) by default, but this can be disabled
-- Can ignore source control common directories
+- Ignores hidden directories (directories starting with `.`) by default, but this can be disabled
+- Can ignore source control common directories, like `.git` or `.svn`
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
 - Works in python2.7 and python3. **It is recommended in Python 3.5 or later due performance improvements. It's much faster!**
 - Can delete matched files
@@ -34,6 +37,13 @@ Common uses:
 - `ffind txt` to return all text files in current dir
 - `ffind ../other_dir txt` to return all text files under dir ../other_dir (or `ffind.py txt -d ../other_dir`)
 
+Install
+---
+Requires [pip](https://pip.pypa.io/en/stable/installing/), the tool for installing Python packages.
+
+```
+pip install ffind
+```
 
 All options
 ---

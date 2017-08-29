@@ -25,8 +25,9 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 - If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.
 - Regex can affect only the filename (default) or the full path.
 - Will print colorized output in glamorous red (default), except on redirected output.
-- Ignores hidden directories (directories starting with `.`) by default, but this can be disabled
-- Ignores source control common directories and files, like `.gitignore` or `RCS/`
+- Ignores hidden directories and files (starting with `.`) by default
+- Can ignore source control common directories and files, like `.gitignore` or `RCS/`. Typically not needed as hidden
+  are ignored by default.
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
 - Works in python2.7 and python3. **It is recommended in Python 3.5 or later due performance improvements. It's much faster!**
 - Can delete matched files
@@ -69,8 +70,8 @@ All options
       --nosymlinks          Do not follow symlinks (following symlinks can lead to
                             infinite recursion) Set env variable FFIND_NO_SYMLINK
                             to set this automatically
-      --hidden              Do not ignore hidden directories. Set env variable
-                            FFIND_SEARCH_HIDDEN to set this automatically
+      --hidden              Do not ignore hidden directories and files. Set env
+                            variable FFIND_SEARCH_HIDDEN to set this automatically
       -c                    Force case sensitive. By default, all lowercase
                             patterns are case insensitive. Set env variable
                             FFIND_CASE_SENSITIVE to set this automatically
@@ -120,7 +121,7 @@ Setting these environment variables, you'll set options by default. For example:
               consistency on the tests, as some filesystems may order files differently
 - FFIND_CASE_SENSITIVE: Search is case sensitive. Equivalent to `-c` flag
 - FFIND_CASE_INSENSITIVE: Search is case insensitive. Equivalent to `-i` flag.
-- FFIND_SEARCH_HIDDEN: Search in hidden directories. Equivalent to `--hidden` flag.
+- FFIND_SEARCH_HIDDEN: Search in hidden directories and files. Equivalent to `--hidden` flag.
 - FFIND_SEARCH_PATH: Search in the whole path. Equivalent to `-p` flag.
 - FFIND_IGNORE_VCS: Ignore paths in version control. Equivalent to `--ignore-vcs`
 - FFIND_NO_SYMLINK: Do not follow symlinks. Equivalent to `--nosymlinks` flag.

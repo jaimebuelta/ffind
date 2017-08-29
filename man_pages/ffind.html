@@ -2,15 +2,16 @@
 <a href="https://coveralls.io/github/jaimebuelta/ffind?branch=master"><img src="https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master" alt="Coverage Status"></a>
 <a href="https://requires.io/github/jaimebuelta/ffind/requirements/?branch=master"><img src="https://requires.io/github/jaimebuelta/ffind/requirements.svg?branch=master" alt="Requirements Status"></a>
 <a href="https://badge.fury.io/py/ffind"><img src="https://badge.fury.io/py/ffind.svg" alt="PyPI version"></a>
-<a href="https://codecov.io/gh/jaimebuelta/ffind"><img src="https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg" alt="codecov"></a></p><h2 id="about">About<a name="about" href="#about" class="md2man-permalink" title="permalink"></a></h2><p>Basically, replaces <code>find . -name &#39;*FILE_PATTERN*&#39;</code> with <code>ffind.py FILE_PATTERN</code></p>
+<a href="https://codecov.io/gh/jaimebuelta/ffind"><img src="https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg" alt="codecov"></a></p><h2 id="about">About<a name="about" href="#about" class="md2man-permalink" title="permalink"></a></h2><p>It allows quick and easy recursive search for files in the Unix command line. </p><p><img src="https://github.com/jaimebuelta/ffind/blob/master/ffind.gif" alt="Demo"></p><p>Basically, replaces <code>find . -name &#39;*FILE_PATTERN*&#39;</code> with <code>ffind.py FILE_PATTERN</code> (and a few more niceties)</p>
 <ul>
-<li>Input filename maybe a regex</li>
+<li>Input filename may be a full regex</li>
 <li>Search recursively on current directory by default.</li>
 <li>If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.</li>
 <li>Regex can affect only the filename (default) or the full path.</li>
 <li>Will print colorized output in glamorous red (default), except on redirected output.</li>
-<li>Ignores hidden directories (directories starting with .) by default, but this can be disabled</li>
-<li>Can ignore source control common directories</li>
+<li>Ignores hidden directories and files (starting with <code>.</code>) by default</li>
+<li>Can ignore source control common directories and files, like <code>.gitignore</code> or <code>RCS/</code>. Typically not needed as hidden
+are ignored by default.</li>
 <li>Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems</li>
 <li>Works in python2.7 and python3. <strong>It is recommended in Python 3.5 or later due performance improvements. It&#39;s much faster!</strong></li>
 <li>Can delete matched files</li>
@@ -22,6 +23,8 @@
 <li><code>ffind txt</code> to return all text files in current dir</li>
 <li><code>ffind ../other_dir txt</code> to return all text files under dir ../other<em>dir (or `ffind.py txt -d ../other</em>dir`)</li>
 </ul>
+<h2 id="install">Install<a name="install" href="#install" class="md2man-permalink" title="permalink"></a></h2><p>Requires <a href="https://pip.pypa.io/en/stable/installing/">pip</a>, the tool for installing Python packages.</p><pre class="highlight plaintext"><code>pip install ffind
+</code></pre>
 <h2 id="all-options">All options<a name="all-options" href="#all-options" class="md2man-permalink" title="permalink"></a></h2><pre class="highlight plaintext"><code>usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]  [-i]
             [--delete | --exec "command" | --module "module_name args" | --command "program"]
             [--ignore-vcs] [-f] [--version]
@@ -42,8 +45,8 @@ optional arguments:
   --nosymlinks          Do not follow symlinks (following symlinks can lead to
                         infinite recursion) Set env variable FFIND_NO_SYMLINK
                         to set this automatically
-  --hidden              Do not ignore hidden directories. Set env variable
-                        FFIND_SEARCH_HIDDEN to set this automatically
+  --hidden              Do not ignore hidden directories and files. Set env
+                        variable FFIND_SEARCH_HIDDEN to set this automatically
   -c                    Force case sensitive. By default, all lowercase
                         patterns are case insensitive. Set env variable
                         FFIND_CASE_SENSITIVE to set this automatically
@@ -88,13 +91,17 @@ FFIND_CASE_SENSITIVE=1 ffind something
 <ul>
 <li>FFIND_SORT: Return the results sorted. This is slower, and is mainly thought to ensure
           consistency on the tests, as some filesystems may order files differently</li>
-<li>FFIND<em>CASE</em>SENSITIVE: Search is case sensitive. Equivalent to -c flag</li>
-<li>FFIND<em>CASE</em>INSENSITIVE: Search is case insensitive. Equivalent to -i flag.</li>
-<li>FFIND<em>SEARCH</em>HIDDEN: Search in hidden directories. Equivalent to --hidden flag.</li>
-<li>FFIND<em>SEARCH</em>PATH: Search in the whole path. Equivalent to -p flag.</li>
-<li>FFIND<em>IGNORE</em>VCS: Ignore paths in version control. Equivalent to --ignore-vcs</li>
-<li>FFIND<em>NO</em>SYMLINK: Do not follow symlinks. Equivalent to --nosymlinks flag.</li>
-<li>FFIND<em>NO</em>COLOR: Do not show colors. Equivalent to --nocolor flag.</li>
+<li>FFIND<em>CASE</em>SENSITIVE: Search is case sensitive. Equivalent to <code>-c</code> flag</li>
+<li>FFIND<em>CASE</em>INSENSITIVE: Search is case insensitive. Equivalent to <code>-i</code> flag.</li>
+<li>FFIND<em>SEARCH</em>HIDDEN: Search in hidden directories and files. Equivalent to <code>--hidden</code> flag.</li>
+<li>FFIND<em>SEARCH</em>PATH: Search in the whole path. Equivalent to <code>-p</code> flag.</li>
+<li>FFIND<em>IGNORE</em>VCS: Ignore paths in version control. Equivalent to <code>--ignore-vcs</code></li>
+<li>FFIND<em>NO</em>SYMLINK: Do not follow symlinks. Equivalent to <code>--nosymlinks</code> flag.</li>
+<li>FFIND<em>NO</em>COLOR: Do not show colors. Equivalent to <code>--nocolor</code> flag.</li>
+<li>FFIND<em>FUZZY</em>SEARCH: Enable fuzzy search. Equivalent to <code>-f</code> flag.</li>
 </ul>
-<p>If the environment is present, when calling ffind -h, the option will display [SET] at the end.</p><h2 id="install">Install<a name="install" href="#install" class="md2man-permalink" title="permalink"></a></h2><p>pip install ffind</p><h2 id="manual-install">Manual Install<a name="manual-install" href="#manual-install" class="md2man-permalink" title="permalink"></a></h2><p>python setup.py install</p><h2 id="test">Test<a name="test" href="#test" class="md2man-permalink" title="permalink"></a></h2><p>It requires to install <a href="https://bitheap.org/cram/">cram</a> (it can be installed with <code>pip install cram</code>)</p><p>To run all the tests, run <code>make test</code>. This runs the tests on both Python 2 and Python 3. Running just
+<p>If an environment variable is present, when calling <code>ffind -h</code>, the option will display [SET] at the end.</p><h2 id="manual-install">Manual Install<a name="manual-install" href="#manual-install" class="md2man-permalink" title="permalink"></a></h2><p>From the source code directory
+<code>
+python setup.py install
+</code></p><h2 id="test">Test<a name="test" href="#test" class="md2man-permalink" title="permalink"></a></h2><p>It requires to install <a href="https://bitheap.org/cram/">cram</a> (it can be installed with <code>pip install cram</code>)</p><p>To run all the tests, run <code>make test</code>. This runs the tests on both Python 2 and Python 3. Running just
 <code>make</code> runs the test for Python 3.</p><p>The tests are under the <code>tests</code> directory, more tests are welcome.</p>

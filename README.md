@@ -20,13 +20,13 @@ It allows quick and easy recursive search for files in the Unix command line.
 
 Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties)
 
-- Input filename may be a regex
+- Input filename may be a full regex
 - Search recursively on current directory by default.
 - If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.
 - Regex can affect only the filename (default) or the full path.
 - Will print colorized output in glamorous red (default), except on redirected output.
 - Ignores hidden directories (directories starting with `.`) by default, but this can be disabled
-- Can ignore source control common directories, like `.git` or `.svn`
+- Ignores source control common directories and files, like `.gitignore` or `RCS/`
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
 - Works in python2.7 and python3. **It is recommended in Python 3.5 or later due performance improvements. It's much faster!**
 - Can delete matched files

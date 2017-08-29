@@ -15,9 +15,10 @@ About
 ---
 
 It allows quick and easy recursive search for files in the Unix command line. 
-Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties)
 
 ![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif)
+
+Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties)
 
 - Input filename may be a regex
 - Search recursively on current directory by default.

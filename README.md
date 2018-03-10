@@ -7,45 +7,56 @@ ffind v1.2.0 - A sane replacement for command line file search
 [![PyPI version](https://badge.fury.io/py/ffind.svg)](https://badge.fury.io/py/ffind)
 [![codecov](https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg)](https://codecov.io/gh/jaimebuelta/ffind)
 
-About ffind
----
+# About ffind
 
-ffind allows quick and easy recursive search for files in the Unix command line. Basically, it replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties).
+ffind allows quick and easy recursive search for files in the command line. Very convenient to find a file you don't know exactly where it is or how it's called in a jungle of directories. 
 
+For example, when:
 
-![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif)
+- Developing code. When it's that `.js` file? It was called my_feature_something_somethign.js, but not sure on which on of the 30 subdirectories it is. `ffind my_feature`
+- Searching for a particular funny meme. It was under Images directory, but not sure if it was a .mp4 or .gif and if it was "dancing" or "DANCE"... `ffind Images/ danc`
 
-Features: 
+**See it here in action!**
 
-- Input filename may be a full regex
+![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif | width=500)
+
+If you have deal with Unix `find`, it replaces the cumbersome `find . -name '*FILE_PATTERN*'` with `ffind FILE_PATTERN` (plus more niceties).
+
+# Main features
+
 - Search recursively on current directory by default.
+- Ignores hidden and source control files and directories by default, avoiding showing files you don't care.
 - If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.
-- Regex can affect only the filename (default) or the full path.
 - Will print colorized output in glamorous red (default), except on redirected output.
-- Ignores hidden directories and files (starting with `.`) by default
-- Can ignore source control common directories and files, like `.gitignore` or `RCS/`. Typically not needed as hidden
-  are ignored by default.
-- Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
-- Works in Python 2.7 and Python 3. **We recommended Python 3.5 or later due to performance improvements. It's much faster!**
-- Can delete matched files
-- Can execute a command on matched files
-- Experimental fuzzy search
+- Can delete matched files, making very easy to clean compiled files, like `.pyc` or `.o`. Try `ffind --delete pyc` on your Python project
 
 Common uses:
 
-- `ffind txt` to return all text files in current dir
-- `ffind ../other_dir txt` to return all text files under dir ../other_dir (or `ffind.py txt -d ../other_dir`)
+- `ffind txt` to return all text files in current tree structure.
+- `ffind ../other_dir txt` to return all text files under dir ../other_dir
+- `ffind --delete pyc` to delete files that contain `pyc`. Use `ffind --delete pyc$` for only files *ending* in `pyc`
 
-Install
----
-Requires [pip](https://pip.pypa.io/en/stable/installing/), the tool for installing Python packages.
+But wait, there is more!
+
+- Input filename may be a full regex
+- Regex can affect only the filename (default) or the full path.
+- Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
+- Works in Python 2.7 and Python 3. **Please use Python 3.5 or later. It's much faster!**
+- Can execute commands on matched files
+- Experimental fuzzy search
+
+
+# Install
+
+Requires [pip](https://pip.pypa.io/en/stable/installing/), the tool for installing Python packages. You already have it installed by default on Python3!
 
 ```
 pip install ffind
 ```
 
-All options
----
+# All arguments
+
+Call `ffind --help` to display all the available arguments.
 
     usage: ffind.py [-h] [-p] [--nocolor] [--nosymlinks] [--hidden] [-c]  [-i]
                 [--delete | --exec "command" | --module "module_name args" | --command "program"]
@@ -54,81 +65,14 @@ All options
 
     Search file name in directory tree
 
-    positional arguments:
-      dir                   Directory to search
-      filepattern
+More information ![here](https://github.com/jaimebuelta/ffind/blob/master/docs/ALL_ARGUMENTS.md)
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -p                    Match whole path, not only name of files. Set env
-                            variable FFIND_SEARCH_PATH to set this automatically
-      --nocolor             Do not display color. Set env variable FFIND_NO_COLOR
-                            to set this automatically
-      --nosymlinks          Do not follow symlinks (following symlinks can lead to
-                            infinite recursion) Set env variable FFIND_NO_SYMLINK
-                            to set this automatically
-      --hidden              Do not ignore hidden directories and files. Set env
-                            variable FFIND_SEARCH_HIDDEN to set this automatically
-      -c                    Force case sensitive. By default, all lowercase
-                            patterns are case insensitive. Set env variable
-                            FFIND_CASE_SENSITIVE to set this automatically
-      -i                    Force case insensitive. This allows case insensitive
-                            for patterns with uppercase. If both -i and -c are
-                            set, the search will be case sensitive.Set env
-                            variable FFIND_CASE_INSENSITIVE to set this
-                            automatically
-      --delete              Delete files found
-      --exec "command"      Execute the given command with the file found as
-                            argument. The string '{}' will be replaced with the
-                            current file name being processed. If this option is
-                            used, ffind will return a status code of 0 if all the
-                            executions return 0, and 1 otherwise
-      --module "module_name args"
-                            Execute the given module with the file found as
-                            argument. The string '{}' will be replaced with the
-                            current file name being processed. If this option is
-                            used, ffind will return a status code of 0 if all the
-                            executions return 0, and 1 otherwise. Only SystemExit
-                            is caught
-      --command "program"   Execute the given python program with the file found
-                            placed in local variable 'filename'. If this option is
-                            used, ffind will return a status code of 1 if any
-                            exceptions occur, and 0 otherwise. SystemExit is not
-                            caught
-      --ignore-vcs          Ignore version control system files and directories.
-                            Set env variable FFIND_IGNORE_VCS to set this
-                            automatically
-      -f                    Experimental fuzzy search. Increases the matches, use
-                            with care. Combining it with regex may give crazy
-                            results
-      --return-results      For testing purposes only. Please ignore
-      --version             show program's version number and exit
+# Environment variables
 
-Environment variables
----
+Environment variables in your shell can be used to set up default options and parameters. See ![here](https://github.com/jaimebuelta/ffind/blob/master/docs/ENV_VARIABLES.md) for more information.
 
-Setting these environment variables, you'll set options by default. For example:
 
-    export FFIND_CASE_SENSITIVE=1
-    # equivalent to ffind -c something
-    ffind something 
-    FFIND_CASE_SENSITIVE=1 ffind something
-
-- FFIND_SORT: Return the results sorted. This is slower, and is mainly thought to ensure
-              consistency on the tests, as some filesystems may order files differently
-- FFIND_CASE_SENSITIVE: Search is case sensitive. Equivalent to `-c` flag
-- FFIND_CASE_INSENSITIVE: Search is case insensitive. Equivalent to `-i` flag.
-- FFIND_SEARCH_HIDDEN: Search in hidden directories and files. Equivalent to `--hidden` flag.
-- FFIND_SEARCH_PATH: Search in the whole path. Equivalent to `-p` flag.
-- FFIND_IGNORE_VCS: Ignore paths in version control. Equivalent to `--ignore-vcs`
-- FFIND_NO_SYMLINK: Do not follow symlinks. Equivalent to `--nosymlinks` flag.
-- FFIND_NO_COLOR: Do not show colors. Equivalent to `--nocolor` flag.
-- FFIND_FUZZY_SEARCH: Enable fuzzy search. Equivalent to `-f` flag.
-
-If an environment variable is present, when calling `ffind -h`, the option will display [SET] at the end.
-
-Manual install
----
+# Manual install
 
 From the source code directory:
 
@@ -136,8 +80,33 @@ From the source code directory:
 python setup.py install
 ```
 
-Test
----
+# Test
+
 To test ffind, you must install [cram](https://bitheap.org/cram/) (you can use `pip install cram`). To run all the tests, run `make test`. This runs the tests on both Python 2 and Python 3. Running just `make` runs the test for Python 3.
 
 The tests are under the `tests` directory; more tests are welcome.
+
+
+# License
+
+The MIT License (MIT)
+
+Copyright (c) 2013-2018 Jaime Buelta
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

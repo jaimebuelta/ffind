@@ -18,7 +18,7 @@ For example, when:
 
 **See it here in action!**
 
-![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif | width=500)
+![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif|width=500)
 
 If you have deal with Unix `find`, it replaces the cumbersome `find . -name '*FILE_PATTERN*'` with `ffind FILE_PATTERN` (plus more niceties).
 
@@ -65,11 +65,11 @@ Call `ffind --help` to display all the available arguments.
 
     Search file name in directory tree
 
-More information ![here](https://github.com/jaimebuelta/ffind/blob/master/docs/ALL_ARGUMENTS.md)
+More information [here](https://github.com/jaimebuelta/ffind/blob/master/docs/ALL_ARGUMENTS.md)
 
 # Environment variables
 
-Environment variables in your shell can be used to set up default options and parameters. See ![here](https://github.com/jaimebuelta/ffind/blob/master/docs/ENV_VARIABLES.md) for more information.
+Environment variables in your shell can be used to set up default options and parameters. See [here](https://github.com/jaimebuelta/ffind/blob/master/docs/ENV_VARIABLES.md) for more information.
 
 
 # Manual install

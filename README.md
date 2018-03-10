@@ -18,7 +18,7 @@ For example, when:
 
 **See it here in action!**
 
-![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif?v=500)
+![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif)
 
 If you have deal with Unix `find`, it replaces the cumbersome `find . -name '*FILE_PATTERN*'` with `ffind FILE_PATTERN` (plus more niceties).
 

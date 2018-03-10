@@ -1,24 +1,21 @@
 ffind v1.2.0 - A sane replacement for command line file search
 ===
 
-*Info:* An utility to search files recursively on a dir.
-
-*Author:* Jaime Buelta
-
 [![Build Status](https://travis-ci.org/jaimebuelta/ffind.svg?branch=master)](https://travis-ci.org/jaimebuelta/ffind)
 [![Coverage Status](https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master)](https://coveralls.io/github/jaimebuelta/ffind?branch=master)
 [![Requirements Status](https://requires.io/github/jaimebuelta/ffind/requirements.svg?branch=master)](https://requires.io/github/jaimebuelta/ffind/requirements/?branch=master)
 [![PyPI version](https://badge.fury.io/py/ffind.svg)](https://badge.fury.io/py/ffind)
 [![codecov](https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg)](https://codecov.io/gh/jaimebuelta/ffind)
 
-About
+About ffind
 ---
 
-It allows quick and easy recursive search for files in the Unix command line. 
+ffind allows quick and easy recursive search for files in the Unix command line. Basically, it replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties).
+
 
 ![Demo](https://github.com/jaimebuelta/ffind/blob/master/ffind.gif)
 
-Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN` (and a few more niceties)
+Features: 
 
 - Input filename may be a full regex
 - Search recursively on current directory by default.
@@ -29,7 +26,7 @@ Basically, replaces `find . -name '*FILE_PATTERN*'` with `ffind.py FILE_PATTERN`
 - Can ignore source control common directories and files, like `.gitignore` or `RCS/`. Typically not needed as hidden
   are ignored by default.
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
-- Works in python2.7 and python3. **It is recommended in Python 3.5 or later due performance improvements. It's much faster!**
+- Works in Python 2.7 and Python 3. **We recommended Python 3.5 or later due to performance improvements. It's much faster!**
 - Can delete matched files
 - Can execute a command on matched files
 - Experimental fuzzy search
@@ -130,19 +127,17 @@ Setting these environment variables, you'll set options by default. For example:
 
 If an environment variable is present, when calling `ffind -h`, the option will display [SET] at the end.
 
-Manual Install
+Manual install
 ---
 
-From the source code directory
+From the source code directory:
+
 ```
 python setup.py install
 ```
 
 Test
 ---
-It requires to install [cram](https://bitheap.org/cram/) (it can be installed with `pip install cram`)
+To test ffind, you must install [cram](https://bitheap.org/cram/) (you can use `pip install cram`). To run all the tests, run `make test`. This runs the tests on both Python 2 and Python 3. Running just `make` runs the test for Python 3.
 
-To run all the tests, run `make test`. This runs the tests on both Python 2 and Python 3. Running just
-`make` runs the test for Python 3.
-
-The tests are under the `tests` directory, more tests are welcome.
+The tests are under the `tests` directory; more tests are welcome.

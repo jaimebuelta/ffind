@@ -1,12 +1,8 @@
 from __future__ import print_function
 ''' Setup / installation script '''
 
-try:
-    from setuptools import setup
-    from setuptools.command.install import install
-except ImportError:
-    from distutils.core import setup
-    from distutils.command.install import install
+from setuptools import setup
+from setuptools.command.install import install
 
 import os
 import subprocess
@@ -52,12 +48,10 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
-    install_requires=[
-        'setuptools',
-    ],
-    python_requires='>=2.6, >=3.3.*, <4',
+    install_requires=['setuptools'],
+    python_requires='>=2.7, >=3.3.*, <4',
     keywords=['searching', 'file system'],
-    packages=['ffind', 'ffind.backports'],
+    packages=['ffind'],
     entry_points={
         'console_scripts': ['ffind = ffind.ffind:run'],
     },

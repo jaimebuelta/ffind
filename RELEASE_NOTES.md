@@ -1,3 +1,8 @@
+Version 1.3 (2018/03/17)
+===
+  - Droop support for Python 2.6
+  - Improved documentation
+
 Version 1.2 (2017/08/12)
 ===
   - Add configuration through environment variables

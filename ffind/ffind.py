@@ -324,7 +324,7 @@ def parse_params_and_search():
     parser.add_argument('--hidden',
                         action='store_false',
                         dest='ignore_hidden',
-                        help='Do not ignore hidden directories. '
+                        help='Do not ignore hidden directories and files. '
                              'Set env variable FFIND_SEARCH_HIDDEN to set '
                              'this automatically'
                              '{0}'.format('[SET]' if env_var else ''),

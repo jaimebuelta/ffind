@@ -11,10 +11,14 @@
 [codecov](https://codecov.io/gh/jaimebuelta/ffind/branch/master/graph/badge.svg) \[la]https://codecov.io/gh/jaimebuelta/ffind\[ra]
 .SH About
 .PP
-Basically, replaces \fB\fCfind . \-name '*FILE_PATTERN*'\fR with \fB\fCffind.py FILE_PATTERN\fR
+It allows quick and easy recursive search for files in the Unix command line. 
+.PP
+[Demo](\[la]https://github.com/jaimebuelta/ffind/blob/master/ffind.gif\[ra])
+.PP
+Basically, replaces \fB\fCfind . \-name '*FILE_PATTERN*'\fR with \fB\fCffind.py FILE_PATTERN\fR (and a few more niceties)
 .RS
 .IP \(bu 2
-Input filename maybe a regex
+Input filename may be a full regex
 .IP \(bu 2
 Search recursively on current directory by default.
 .IP \(bu 2
@@ -24,9 +28,10 @@ Regex can affect only the filename (default) or the full path.
 .IP \(bu 2
 Will print colorized output in glamorous red (default), except on redirected output.
 .IP \(bu 2
-Ignores hidden directories (directories starting with .) by default, but this can be disabled
+Ignores hidden directories and files (starting with \fB\fC\&.\fR) by default
 .IP \(bu 2
-Can ignore source control common directories
+Can ignore source control common directories and files, like \fB\fC\&.gitignore\fR or \fB\fCRCS/\fR\&. Typically not needed as hidden
+are ignored by default.
 .IP \(bu 2
 Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
 .IP \(bu 2
@@ -45,6 +50,15 @@ Common uses:
 \fB\fCffind txt\fR to return all text files in current dir
 .IP \(bu 2
 \fB\fCffind ../other_dir txt\fR to return all text files under dir ../other\fIdir (or `ffind.py txt \-d ../other\fPdir`)
+.RE
+.SH Install
+.PP
+Requires pip \[la]https://pip.pypa.io/en/stable/installing/\[ra], the tool for installing Python packages.
+.PP
+.RS
+.nf
+pip install ffind
+.fi
 .RE
 .SH All options
 .PP
@@ -70,8 +84,8 @@ optional arguments:
   \-\-nosymlinks          Do not follow symlinks (following symlinks can lead to
                         infinite recursion) Set env variable FFIND_NO_SYMLINK
                         to set this automatically
-  \-\-hidden              Do not ignore hidden directories. Set env variable
-                        FFIND_SEARCH_HIDDEN to set this automatically
+  \-\-hidden              Do not ignore hidden directories and files. Set env
+                        variable FFIND_SEARCH_HIDDEN to set this automatically
   \-c                    Force case sensitive. By default, all lowercase
                         patterns are case insensitive. Set env variable
                         FFIND_CASE_SENSITIVE to set this automatically
@@ -125,28 +139,30 @@ FFIND_CASE_SENSITIVE=1 ffind something
 FFIND_SORT: Return the results sorted. This is slower, and is mainly thought to ensure
           consistency on the tests, as some filesystems may order files differently
 .IP \(bu 2
-FFIND\fICASE\fPSENSITIVE: Search is case sensitive. Equivalent to \-c flag
+FFIND\fICASE\fPSENSITIVE: Search is case sensitive. Equivalent to \fB\fC\-c\fR flag
 .IP \(bu 2
-FFIND\fICASE\fPINSENSITIVE: Search is case insensitive. Equivalent to \-i flag.
+FFIND\fICASE\fPINSENSITIVE: Search is case insensitive. Equivalent to \fB\fC\-i\fR flag.
 .IP \(bu 2
-FFIND\fISEARCH\fPHIDDEN: Search in hidden directories. Equivalent to \-\-hidden flag.
+FFIND\fISEARCH\fPHIDDEN: Search in hidden directories and files. Equivalent to \fB\fC\-\-hidden\fR flag.
 .IP \(bu 2
-FFIND\fISEARCH\fPPATH: Search in the whole path. Equivalent to \-p flag.
+FFIND\fISEARCH\fPPATH: Search in the whole path. Equivalent to \fB\fC\-p\fR flag.
 .IP \(bu 2
-FFIND\fIIGNORE\fPVCS: Ignore paths in version control. Equivalent to \-\-ignore\-vcs
+FFIND\fIIGNORE\fPVCS: Ignore paths in version control. Equivalent to \fB\fC\-\-ignore\-vcs\fR
 .IP \(bu 2
-FFIND\fINO\fPSYMLINK: Do not follow symlinks. Equivalent to \-\-nosymlinks flag.
+FFIND\fINO\fPSYMLINK: Do not follow symlinks. Equivalent to \fB\fC\-\-nosymlinks\fR flag.
 .IP \(bu 2
-FFIND\fINO\fPCOLOR: Do not show colors. Equivalent to \-\-nocolor flag.
+FFIND\fINO\fPCOLOR: Do not show colors. Equivalent to \fB\fC\-\-nocolor\fR flag.
+.IP \(bu 2
+FFIND\fIFUZZY\fPSEARCH: Enable fuzzy search. Equivalent to \fB\fC\-f\fR flag.
 .RE
 .PP
-If the environment is present, when calling ffind \-h, the option will display [SET] at the end.
-.SH Install
-.PP
-pip install ffind
+If an environment variable is present, when calling \fB\fCffind \-h\fR, the option will display [SET] at the end.
 .SH Manual Install
 .PP
+From the source code directory
+\fB\fC
 python setup.py install
+\fR
 .SH Test
 .PP
 It requires to install cram \[la]https://bitheap.org/cram/\[ra] (it can be installed with \fB\fCpip install cram\fR)

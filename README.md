@@ -1,4 +1,4 @@
-ffind v1.3.0 - A sane replacement for command line file search
+ffind v1.3.1 - A sane replacement for command line file search
 ===
 
 [![Build Status](https://travis-ci.org/jaimebuelta/ffind.svg?branch=master)](https://travis-ci.org/jaimebuelta/ffind)

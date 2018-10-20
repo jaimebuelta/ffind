@@ -1,5 +1,6 @@
 # Set a directory with different files to test search capabilities
 TEST_DIR=./test_dir
+FFIND_PY=$TESTDIR/../src/ffind/ffind.py
 mkdir $TEST_DIR
 touch $TEST_DIR/test1.py
 touch $TEST_DIR/Test2.py

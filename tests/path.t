@@ -4,10 +4,10 @@ Setup
 
 Run test
 
-  $ $PYTHON $FFIND_PY second
+  $ $FFIND_CMD second
   ./test_dir/second_level
 
-  $ $PYTHON $FFIND_PY -p second
+  $ $FFIND_CMD -p second
   ./test_dir/second_level
   ./test_dir/second_level/CVS
   ./test_dir/second_level/config
@@ -18,7 +18,7 @@ Run test
 
 Using env variable
 
-  $ FFIND_SEARCH_PATH=1 $PYTHON $FFIND_PY second
+  $ FFIND_SEARCH_PATH=1 $FFIND_CMD second
   ./test_dir/second_level
   ./test_dir/second_level/CVS
   ./test_dir/second_level/config

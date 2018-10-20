@@ -4,7 +4,7 @@ Setup
 
 Run test
 
-  $ $PYTHON $FFIND_PY *.t
+  $ $FFIND_CMD *.t
   \x1b[31mSorry, the expression *.t is incorrect.\x1b[0m (esc)
   Remember that this should be a regular expression.
   (https://docs.python.org/howto/regex.html)

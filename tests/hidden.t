@@ -4,15 +4,15 @@ Setup
 
 Run test
 
-  $ $PYTHON $FFIND_PY --hidden config
+  $ $FFIND_CMD --hidden config
   ./test_dir/.git/config
   ./test_dir/second_level/config
-  $ $PYTHON $FFIND_PY config
+  $ $FFIND_CMD config
   ./test_dir/second_level/config
-  $ $PYTHON $FFIND_PY lib
+  $ $FFIND_CMD lib
 
 Using environment variable
 
-  $ FFIND_SEARCH_HIDDEN=1 $PYTHON $FFIND_PY config
+  $ FFIND_SEARCH_HIDDEN=1 $FFIND_CMD config
   ./test_dir/.git/config
   ./test_dir/second_level/config

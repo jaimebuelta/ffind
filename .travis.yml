@@ -10,7 +10,7 @@ python:
 before_script:
 - pip install pyflakes cram python-coveralls codecov
 script:
-- pyflakes *.py ffind/*.py
+- pyflakes *.py src/ffind/*.py
 - python setup.py install
 - ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes
 - make travis

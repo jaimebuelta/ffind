@@ -1,3 +1,8 @@
+# The ffind script
+FFIND_PY=$TESTDIR/../src/ffind/ffind.py
+# The complete ffind command, by python interpreter
+FFIND_CMD="$PYTHON $FFIND_PY"
+
 # Set a directory with different files to test search capabilities
 TEST_DIR=./test_dir
 mkdir $TEST_DIR

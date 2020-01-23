@@ -4,6 +4,6 @@ Setup
 
 Run test
 
-  $ $PYTHON $TESTDIR/../ffind/ffind.py Test
+  $ $FFIND_CMD Test
   ./test_dir/Test2.py
   ./test_dir/second_level/sTest2.py

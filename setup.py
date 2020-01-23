@@ -3,6 +3,7 @@ from __future__ import print_function
 
 from setuptools import setup
 from setuptools.command.install import install
+from setuptools import find_packages
 
 import os
 import subprocess
@@ -51,7 +52,8 @@ setup(
     install_requires=['setuptools'],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, <4',
     keywords=['searching', 'file system'],
-    packages=['ffind'],
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     entry_points={
         'console_scripts': ['ffind = ffind.ffind:run'],
     },

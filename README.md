@@ -1,6 +1,7 @@
 ffind v1.3.1 - A sane replacement for command line file search
 ===
 
+[![Downloads](https://pepy.tech/badge/ffind)](https://pepy.tech/project/ffind)
 [![Build Status](https://travis-ci.org/jaimebuelta/ffind.svg?branch=master)](https://travis-ci.org/jaimebuelta/ffind)
 [![Coverage Status](https://coveralls.io/repos/github/jaimebuelta/ffind/badge.svg?branch=master)](https://coveralls.io/github/jaimebuelta/ffind?branch=master)
 [![Requirements Status](https://requires.io/github/jaimebuelta/ffind/requirements.svg?branch=master)](https://requires.io/github/jaimebuelta/ffind/requirements/?branch=master)

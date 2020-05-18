@@ -46,11 +46,10 @@ setup(
     download_url='https://github.com/jaimebuelta/ffind/tarball/v1.3.1',
     platforms='Cross Platform',
     classifiers=[
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
     install_requires=['setuptools'],
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, <4',
+    python_requires='>=3.5, <4',
     keywords=['searching', 'file system'],
     packages=find_packages('src'),
     package_dir={'': 'src'},

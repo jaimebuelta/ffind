@@ -42,7 +42,7 @@ But wait, there is more!
 - Input filename may be a full regex
 - Regex can affect only the filename (default) or the full path.
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
-- Works in Python 2.7 and Python 3. **Please use Python 3.5 or later. It's much faster!**
+- Works in Python 2.7 (deprecated since version v1.3.1) and Python 3. **Please use Python 3.5 or later. It's much faster!**
 - Can execute commands on matched files
 - Experimental fuzzy search
 

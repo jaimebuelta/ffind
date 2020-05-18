@@ -3,10 +3,6 @@
 test_python3:
 	PYTHON=python3 cram -v tests/*.t
 
-# Run the tests in python 3 only
-test_python2:
-	PYTHON=python cram -v tests/*.t
-
 # Run the tests in pypy
 test_pypy:
 	PYTHON=pypy cram -v tests/*.t
@@ -16,5 +12,5 @@ travis:
 	rm -f $(shell pwd)/.coverage
 	COVERAGE_FILE='$(shell pwd)/.coverage' PYTHON='coverage run -a --source=ffind' cram -v tests/*.t
 
-# Run the tests twice in Python 2 and 3
-test: test_python3 test_python2
+# Run the tests
+test: test_python3

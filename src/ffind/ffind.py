@@ -13,8 +13,9 @@ import pkg_resources  # part of setuptools
 try:
     VERSION = pkg_resources.require('ffind')[0].version
 except:
-    # Default if not installed yet
-    VERSION = '1.4.0'
+    # Default if not installed yet. Exclude from
+    # coverage
+    VERSION = '1.4.0'  # pragma: no cover
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

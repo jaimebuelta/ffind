@@ -12,5 +12,9 @@ travis:
 	rm -f $(shell pwd)/.coverage
 	COVERAGE_FILE='$(shell pwd)/.coverage' PYTHON='coverage run -a --source=ffind' cram -v tests/*.t
 
+githubactions:
+	rm -f $(shell pwd)/.coverage
+	COVERAGE_FILE='$(shell pwd)/.coverage' PYTHON='coverage run -a --source=ffind' cram -v tests/*.t
+
 # Run the tests
 test: test_python3

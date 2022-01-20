@@ -208,7 +208,7 @@ def search(directory, file_pattern, path_match,
 
 def print_match(splitted_match, colored, color=RED_CHARACTER):
     ''' Output a match on the console '''
-    if colored:
+    if colored: # pragma: no cover
         a, b, c = splitted_match
         colored_output = (a, color, b, NO_COLOR, c)
     else:

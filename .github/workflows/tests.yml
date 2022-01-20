@@ -38,3 +38,7 @@ jobs:
     - name: Specific tests for CI
       run: |
         make githubactions
+    - name: Cove coverage
+      run: |
+        codecov
+        coveralls

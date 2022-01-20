@@ -44,6 +44,11 @@ jobs:
     - name: Cove coverage
       run: |
         codecov
+    - name: Coveralls
+      uses: AndreMiras/coveralls-python-action@develop
+      with:
+        parallel: true
+        flag-name: Unit Test
 
   coveralls_finish:
     needs: build

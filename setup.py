@@ -39,11 +39,11 @@ setup(
     name='ffind',
     description='Sane replacement for command line file search',
     license='MIT',
-    version='1.4.0',
+    version='1.4.1',
     author='Jaime Buelta',
     author_email='jaime.buelta@gmail.com',
     url='https://github.com/jaimebuelta/ffind',
-    download_url='https://github.com/jaimebuelta/ffind/tarball/v1.4.0',
+    download_url='https://github.com/jaimebuelta/ffind/tarball/v1.4.1',
     platforms='Cross Platform',
     classifiers=[
         'Programming Language :: Python :: 3',

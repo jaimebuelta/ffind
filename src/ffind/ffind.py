@@ -12,10 +12,10 @@ import argparse
 import pkg_resources  # part of setuptools
 try:
     VERSION = pkg_resources.require('ffind')[0].version
-except:
+except:  # pragma: no cover
     # Default if not installed yet. Exclude from
     # coverage
-    VERSION = '1.4.0'  # pragma: no cover
+    VERSION = '1.4.0'
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'
@@ -208,7 +208,7 @@ def search(directory, file_pattern, path_match,
 
 def print_match(splitted_match, colored, color=RED_CHARACTER):
     ''' Output a match on the console '''
-    if colored:
+    if colored: # pragma: no cover
         a, b, c = splitted_match
         colored_output = (a, color, b, NO_COLOR, c)
     else:
@@ -474,7 +474,7 @@ def parse_params_and_search():
 def run():
     try:
         parse_params_and_search()
-    except KeyboardInterrupt:
+    except KeyboardInterrupt: # pragma: no cover
         pass
     except WrongPattern as err:
         print(err)

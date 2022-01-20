@@ -38,6 +38,9 @@ jobs:
     - name: Specific tests for CI
       run: |
         make githubactions
+    - name: Show coverage files
+      run: |
+        ls -lrt ./coverage
     - name: Cove coverage
       run: |
         codecov

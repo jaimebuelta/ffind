@@ -1,4 +1,4 @@
-ffind v1.3.1 - A sane replacement for command line file search
+ffind v1.4.0 - A sane replacement for command line file search
 ===
 
 [![Downloads](https://pepy.tech/badge/ffind)](https://pepy.tech/project/ffind)
@@ -42,7 +42,7 @@ But wait, there is more!
 - Input filename may be a full regex
 - Regex can affect only the filename (default) or the full path.
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
-- Works in Python 2.7 (deprecated since version v1.3.1) and Python 3. **Please use Python 3.5 or later. It's much faster!**
+- Works in Python 2.7 (deprecated since version v1.3.1) and Python 3.
 - Can execute commands on matched files
 - Experimental fuzzy search
 
@@ -92,7 +92,7 @@ The tests are under the `tests` directory; more tests are welcome.
 
 The MIT License (MIT)
 
-Copyright (c) 2013-2018 Jaime Buelta
+Copyright (c) 2013-2022 Jaime Buelta
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

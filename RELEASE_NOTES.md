@@ -1,6 +1,10 @@
+Version 1.3 (2022/01/20)
+===
+  - Drop support for Python 3.6
+
 Version 1.3 (2018/03/17)
 ===
-  - Droop support for Python 2.6
+  - Drop support for Python 2.6
   - Improved documentation
 
 Version 1.2 (2017/08/12)

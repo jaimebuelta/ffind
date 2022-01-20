@@ -41,4 +41,7 @@ jobs:
     - name: Cove coverage
       run: |
         codecov
-        coveralls
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

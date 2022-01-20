@@ -52,9 +52,9 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Build package
       run: |
-        python -m pip install wheel
         python setup.py sdist bdist_wheel
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')

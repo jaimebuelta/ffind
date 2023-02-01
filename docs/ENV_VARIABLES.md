@@ -8,7 +8,7 @@ Setting these environment variables on your command line shell, you'll set optio
     ffind something 
     FFIND_CASE_SENSITIVE=1 ffind something
 
-- FFIND_SORT: Return the results sorted. This is slower, and is mainly thought to ensure
+- FFIND_SORT: Return the results sorted. This is slower, and is mainly to ensure
               consistency on the tests, as some filesystems may order files differently
 - FFIND_CASE_SENSITIVE: Search is case sensitive. Equivalent to `-c` flag
 - FFIND_CASE_INSENSITIVE: Search is case insensitive. Equivalent to `-i` flag.

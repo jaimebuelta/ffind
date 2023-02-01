@@ -25,13 +25,13 @@ If you have deal with Unix `find`, it replaces the cumbersome `find . -name '*FI
 
 - Search recursively on current directory by default.
 - Ignores hidden and source control files and directories by default, avoiding showing files you don't care.
-- If the FILE_PATTERN is all in lowercase, the search will be case insensitive, unless a flag is set.
+- If the `FILE_PATTERN` is all in lowercase, the search will be case insensitive, unless a flag is set. Just write the search in lowercase to ensure maximum returns.
 - Will print colorized output in glamorous red (default), except on redirected output.
 - Can delete matched files, making very easy to clean compiled files, like `.pyc` or `.o`. Try `ffind --delete pyc` on your Python project
 
 Common uses:
 
-- `ffind txt` to return all plain text (`.txt`) files in current tree structure.
+- `ffind txt` to return all plain text files in current tree structure.
 - `ffind ../other_dir txt` to return all plain text files under dir ../other_dir
 - `ffind --delete pyc` to delete files that contain `pyc`. Use `ffind --delete pyc$` for only files *ending* in `pyc`
 
@@ -40,7 +40,7 @@ But wait, there is more!
 - Input filename may be a full regex
 - Regex can affect only the filename (default) or the full path.
 - Follow symlinks by default, but that can be deactivated if necessary to avoid recursion problems
-- Works in Python 2.7 (deprecated since version v1.3.1) and Python 3.
+- Works in Python3! Older versions (until v1.3.1) are also Python 2.7 compatible for legacy support
 - Can execute commands on matched files
 - Experimental fuzzy search
 

@@ -15,7 +15,7 @@ try:
 except:  # pragma: no cover
     # Default if not installed yet. Exclude from
     # coverage
-    VERSION = '1.4.1'
+    VERSION = '1.5.0'
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

@@ -1,4 +1,10 @@
-Version 1.3 (2022/01/20)
+Version 1.5 (2023/02/04)
+===
+  - Drop support for Python 3.7
+  - Added tests for Python 3.11
+  - Adding explicit Pypy 3.7, 3.8 & 3.9 support
+
+Version 1.4 (2022/01/20)
 ===
   - Drop support for Python 3.6
 

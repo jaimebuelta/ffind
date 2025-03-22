@@ -39,4 +39,21 @@ include = [
 ]
 
 [tool.hatch.build.hooks.custom]
-path = "build.py" 
+path = "build.py"
+
+[tool.hatch.build]
+artifacts = [
+    "man_pages/ffind.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ffind"]
+artifacts = [
+    "man_pages/ffind.1",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/ffind/**/*.py",
+    "man_pages/**/*",
+] 

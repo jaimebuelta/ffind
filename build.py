@@ -1,6 +1,7 @@
 import os
 import subprocess
 from pathlib import Path
+from hatchling.build import build_package
 
 def install_man_pages():
     """Install man pages during package installation."""
@@ -18,5 +19,14 @@ def install_man_pages():
         output = cmd.communicate()[0]
         print(output)
 
+def build_package_with_man_pages(*args, **kwargs):
+    """Build the package and include man pages."""
+    # First run the standard build
+    build_package(*args, **kwargs)
+    
+    # Then install man pages if we're in install mode
+    if kwargs.get('install', False):
+        install_man_pages()
+
 if __name__ == "__main__":
-    install_man_pages() 
+    build_package_with_man_pages() 

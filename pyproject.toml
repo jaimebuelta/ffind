@@ -48,4 +48,4 @@ include = [
 
 [tool.hatch.build.hooks.custom]
 path = "build.py"
-hooks = ["build_hook", "install_hook"] 
+hooks = ["ManPageHook"] 

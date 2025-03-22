@@ -33,10 +33,12 @@ jobs:
     - name: Lint with pyflakes
       run: |
         pyflakes *.py src/ffind/*.py
-    - name: Build and install
+    - name: Build package
       run: |
         python -m build
-        pip install dist/ffind-1.6.0.tar.gz
+    - name: Install package
+      run: |
+        pip install .
     - name: Run ffind with pyflakes
       run: |
         ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes

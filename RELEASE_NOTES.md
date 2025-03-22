@@ -1,3 +1,10 @@
+Version 1.6.0 (2024/03/21)
+===
+  - Updated test configurations to support Python 3.9 through 3.13
+  - Added PyPy 3.9 and 3.10 support
+  - Removed support for Python 3.8
+  - Updated CI configurations for both Travis and GitHub Actions
+
 Version 1.5 (2023/02/04)
 ===
   - Drop support for Python 3.7

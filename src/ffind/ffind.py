@@ -9,13 +9,13 @@ import itertools
 from copy import copy
 
 import argparse
-import pkg_resources  # part of setuptools
 try:
-    VERSION = pkg_resources.require('ffind')[0].version
-except:  # pragma: no cover
+    from importlib.metadata import version
+    VERSION = version('ffind')
+except ImportError:  # pragma: no cover
     # Default if not installed yet. Exclude from
     # coverage
-    VERSION = '1.5.0'
+    VERSION = '1.6.0'
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

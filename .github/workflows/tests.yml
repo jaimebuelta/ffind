@@ -33,7 +33,7 @@ jobs:
     - name: Get package version
       id: get_version
       run: |
-        VERSION=$(python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")
+        VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
         echo "version=$VERSION" >> $GITHUB_OUTPUT
     - name: Lint with pyflakes
       run: |

@@ -29,19 +29,6 @@ Download = "https://github.com/jaimebuelta/ffind/tarball/v1.6.0"
 [project.scripts]
 ffind = "ffind.ffind:run"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/ffind"]
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "src/ffind/**/*.py",
-    "man_pages/**/*",
-]
-
-[tool.hatch.build.hooks.custom]
-path = "build.py"
-hooks = ["build_hook", "install_hook"]
-
 [tool.hatch.build]
 artifacts = [
     "man_pages/ffind.1",
@@ -57,4 +44,8 @@ artifacts = [
 include = [
     "src/ffind/**/*.py",
     "man_pages/**/*",
-] 
+]
+
+[tool.hatch.build.hooks.custom]
+path = "build.py"
+hooks = ["build_hook", "install_hook"] 

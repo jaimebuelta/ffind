@@ -29,13 +29,16 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install pyflakes cram python-coveralls codecov
+        python -m pip install pyflakes cram python-coveralls codecov build hatchling
     - name: Lint with pyflakes
       run: |
         pyflakes *.py src/ffind/*.py
-    - name: Install and test
+    - name: Build and install
       run: |
-        python setup.py install
+        python -m build
+        pip install dist/ffind-1.6.0.tar.gz
+    - name: Run ffind with pyflakes
+      run: |
         ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes
     - name: Specific tests for CI
       run: |
@@ -55,7 +58,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build package
       run: |
-        python setup.py sdist bdist_wheel
+        python -m pip install --upgrade pip
+        python -m pip install build hatchling
+        python -m build
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1

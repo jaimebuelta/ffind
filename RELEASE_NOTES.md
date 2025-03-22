@@ -1,4 +1,4 @@
-Version 1.6.0 (2024/03/21)
+Version 1.6.1 (2024/03/21)
 ===
   - Updated test configurations to support Python 3.9 through 3.13
   - Added PyPy 3.9 and 3.10 support

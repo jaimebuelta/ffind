@@ -15,7 +15,7 @@ try:
 except ImportError:  # pragma: no cover
     # Default if not installed yet. Exclude from
     # coverage
-    VERSION = '1.6.0'
+    VERSION = '1.6.1'
 
 # Define colors
 RED_CHARACTER = '\x1b[31m'

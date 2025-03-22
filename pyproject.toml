@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ffind"
-version = "1.6.0"
+version = "1.6.1"
 description = "Sane replacement for command line file search"
 readme = "README.md"
 requires-python = ">=3.9,<4"
@@ -24,7 +24,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/jaimebuelta/ffind"
-Download = "https://github.com/jaimebuelta/ffind/tarball/v1.6.0"
+Download = "https://github.com/jaimebuelta/ffind/tarball/v1.6.1"
 
 [project.scripts]
 ffind = "ffind.ffind:run"

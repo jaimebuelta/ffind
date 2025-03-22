@@ -38,16 +38,9 @@ jobs:
     - name: Lint with pyflakes
       run: |
         pyflakes *.py src/ffind/*.py
-    - name: Debug directory structure
-      run: |
-        ls -la
-        echo "=== src directory ==="
-        ls -la src/
-        echo "=== src/ffind directory ==="
-        ls -la src/ffind/
     - name: Build package
       run: |
-        python build.py
+        hatchling build
     - name: Debug build output
       run: |
         echo "=== dist directory ==="
@@ -77,8 +70,8 @@ jobs:
     - name: Build package
       run: |
         python -m pip install --upgrade pip
-        python -m pip install build hatchling
-        python build.py
+        python -m pip install hatchling
+        hatchling build
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1

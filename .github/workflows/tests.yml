@@ -33,7 +33,7 @@ jobs:
     - name: Get package version
       id: get_version
       run: |
-        VERSION=$(python -c "import tomli; print(tomli.load(open('pyproject.toml'))['project']['version'])")
+        VERSION=$(python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")
         echo "version=$VERSION" >> $GITHUB_OUTPUT
     - name: Lint with pyflakes
       run: |
@@ -41,10 +41,6 @@ jobs:
     - name: Build package
       run: |
         hatchling build
-    - name: Debug build output
-      run: |
-        echo "=== dist directory ==="
-        ls -la dist/
     - name: Install wheel
       run: |
         pip install dist/ffind-${{ steps.get_version.outputs.version }}-py3-none-any.whl

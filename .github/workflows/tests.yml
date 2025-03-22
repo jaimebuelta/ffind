@@ -30,15 +30,20 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pyflakes cram python-coveralls codecov build hatchling
+    - name: Get package version
+      id: get_version
+      run: |
+        VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
     - name: Lint with pyflakes
       run: |
         pyflakes *.py src/ffind/*.py
     - name: Build package
       run: |
-        python -m build
-    - name: Install package
+        hatchling build
+    - name: Install wheel
       run: |
-        pip install .
+        pip install dist/ffind-${{ steps.get_version.outputs.version }}-py3-none-any.whl
     - name: Run ffind with pyflakes
       run: |
         ffind --ignore-vcs . '(?<!argparse).py$' --exec=pyflakes
@@ -61,11 +66,12 @@ jobs:
     - name: Build package
       run: |
         python -m pip install --upgrade pip
-        python -m pip install build hatchling
-        python -m build
+        python -m pip install hatchling
+        hatchling build
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+        packages_dir: dist/

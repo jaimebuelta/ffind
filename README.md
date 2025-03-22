@@ -1,4 +1,4 @@
-ffind v1.5.0 - A sane replacement for command line file search
+ffind v1.6.0 - A sane replacement for command line file search
 ===
 
 [![Downloads](https://pepy.tech/badge/ffind)](https://pepy.tech/project/ffind)

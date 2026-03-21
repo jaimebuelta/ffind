@@ -6,8 +6,6 @@ import sys
 import re
 import runpy
 import itertools
-from copy import copy
-
 import argparse
 try:
     from importlib.metadata import version
@@ -25,26 +23,26 @@ BLUE_CHARACTER = '\x1b[36m'
 PURPLE_CHARACTER = '\x1b[35m'
 NO_COLOR = '\x1b[0m'
 
-VCS_DIRS = ('CVS',
-            'RCS',
-            'SCCS',
-            '.git',
-            '.svn',
-            '.arch-ids',
-            '{arch}')
+VCS_DIRS = frozenset(('CVS',
+                      'RCS',
+                      'SCCS',
+                      '.git',
+                      '.svn',
+                      '.arch-ids',
+                      '{arch}'))
 
-VCS_FILES = ('=RELEASE-ID',
-             '=meta-update',
-             '=update',
-             '.bzr',
-             '.bzrignore',
-             '.bzrtags',
-             '.hg',
-             '.hgignore',
-             '.hgrags',
-             '_darcs',
-             '.cvsignore',
-             '.gitignore',)
+VCS_FILES = frozenset(('=RELEASE-ID',
+                       '=meta-update',
+                       '=update',
+                       '.bzr',
+                       '.bzrignore',
+                       '.bzrtags',
+                       '.hg',
+                       '.hgignore',
+                       '.hgrags',
+                       '_darcs',
+                       '.cvsignore',
+                       '.gitignore'))
 
 SORT_RESULT = bool(os.environ.get('FFIND_SORT', '0'))
 
@@ -91,34 +89,42 @@ def create_comparison(file_pattern, ignore_case, fuzzy):
     # We can go with a simplified comparison
     if ignore_case:
         file_pattern = file_pattern.lower()
+        pattern_len = len(file_pattern)
 
         def simple_compare_case_insensitive(to_match):
-            if file_pattern in to_match.lower():
-                return regex_compare(to_match)
+            idx = to_match.lower().find(file_pattern)
+            if idx >= 0:
+                return [to_match[:idx],
+                        to_match[idx:idx + pattern_len],
+                        to_match[idx + pattern_len:]]
         return simple_compare_case_insensitive
 
+    pattern_len = len(file_pattern)
+
     def simple_compare(to_match):
-        if file_pattern in to_match:
-            return regex_compare(to_match)
+        idx = to_match.find(file_pattern)
+        if idx >= 0:
+            return [to_match[:idx],
+                    to_match[idx:idx + pattern_len],
+                    to_match[idx + pattern_len:]]
 
     return simple_compare
 
 
 def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
     '''
-    Create a generator to return subfolders to search, removing the
-    ones to not search from the original list, to avoid keep
-    walking them
+    Filter subfolders in-place (so os.walk won't descend into them)
+    and yield the kept ones.
     '''
-
-    # Create a copy to iterate to avoid iteration problems
-    for folder in copy(sub_folders):
+    kept = []
+    for folder in sub_folders:
         if ignore_hidden and folder.startswith('.'):
-            sub_folders.remove(folder)
-        elif ignore_vcs and folder in VCS_DIRS:
-            sub_folders.remove(folder)
-        else:
-            yield folder
+            continue
+        if ignore_vcs and folder in VCS_DIRS:
+            continue
+        kept.append(folder)
+    sub_folders[:] = kept
+    return kept
 
 
 def filtered_files(files, ignore_hidden, ignore_vcs):

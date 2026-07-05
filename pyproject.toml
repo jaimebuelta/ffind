@@ -24,28 +24,20 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/jaimebuelta/ffind"
-Download = "https://github.com/jaimebuelta/ffind/tarball/v1.6.1"
 
 [project.scripts]
 ffind = "ffind.ffind:run"
 
-[tool.hatch.build]
-artifacts = [
-    "man_pages/ffind.1",
-]
-
 [tool.hatch.build.targets.wheel]
 packages = ["src/ffind"]
-artifacts = [
-    "man_pages/ffind.1",
-]
+
+# Ship the man page inside the wheel; pip installs it under the
+# environment prefix (share/man/man1) and removes it on uninstall
+[tool.hatch.build.targets.wheel.shared-data]
+"man_pages/ffind.1" = "share/man/man1/ffind.1"
 
 [tool.hatch.build.targets.sdist]
 include = [
     "src/ffind/**/*.py",
     "man_pages/**/*",
-]
-
-[tool.hatch.build.hooks.custom]
-path = "build.py"
-hooks = ["ManPageHook"] 
+] 

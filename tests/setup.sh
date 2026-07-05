@@ -24,4 +24,6 @@ touch $TEST_DIR/.git/library
 mkdir $TEST_DIR/.venv
 mkdir $TEST_DIR/.venv/library
 
-FFIND_SORT=1
+# Exported so the ffind subprocess sees it and produces sorted,
+# deterministic output for the tests
+export FFIND_SORT=1

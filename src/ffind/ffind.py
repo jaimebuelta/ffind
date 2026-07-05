@@ -5,9 +5,8 @@ import os
 import sys
 import re
 import runpy
+import shlex
 import itertools
-from copy import copy
-
 import argparse
 try:
     from importlib.metadata import version
@@ -25,28 +24,28 @@ BLUE_CHARACTER = '\x1b[36m'
 PURPLE_CHARACTER = '\x1b[35m'
 NO_COLOR = '\x1b[0m'
 
-VCS_DIRS = ('CVS',
-            'RCS',
-            'SCCS',
-            '.git',
-            '.svn',
-            '.arch-ids',
-            '{arch}')
+VCS_DIRS = frozenset(('CVS',
+                      'RCS',
+                      'SCCS',
+                      '.git',
+                      '.svn',
+                      '.hg',
+                      '.bzr',
+                      '_darcs',
+                      '.arch-ids',
+                      '{arch}'))
 
-VCS_FILES = ('=RELEASE-ID',
-             '=meta-update',
-             '=update',
-             '.bzr',
-             '.bzrignore',
-             '.bzrtags',
-             '.hg',
-             '.hgignore',
-             '.hgrags',
-             '_darcs',
-             '.cvsignore',
-             '.gitignore',)
+VCS_FILES = frozenset(('=RELEASE-ID',
+                       '=meta-update',
+                       '=update',
+                       '.bzrignore',
+                       '.bzrtags',
+                       '.hgignore',
+                       '.hgtags',
+                       '.cvsignore',
+                       '.gitignore'))
 
-SORT_RESULT = bool(os.environ.get('FFIND_SORT', '0'))
+SORT_RESULT = bool(os.environ.get('FFIND_SORT'))
 
 
 class WrongPattern(Exception):
@@ -77,48 +76,58 @@ def create_comparison(file_pattern, ignore_case, fuzzy):
                                       no_color=NO_COLOR))
 
     def regex_compare(to_match):
-        match = re.search(pattern, to_match)
+        match = pattern.search(to_match)
         if match:
             smatch = [to_match[:match.start()],
                       to_match[match.start(): match.end()],
                       to_match[match.end():]]
             return smatch
 
-    # Check if is a proper regex (contains a char different from [a-zA-Z0-9])
-    if fuzzy or re.search(r'[^a-zA-Z0-9]', file_pattern):
+    # Check if is a proper regex (contains a char with a special regex
+    # meaning; '_' and '-' are literal in a regex, so they can use the
+    # simple comparison)
+    if fuzzy or re.search(r'[^a-zA-Z0-9_-]', file_pattern):
         return regex_compare
 
     # We can go with a simplified comparison
     if ignore_case:
         file_pattern = file_pattern.lower()
+        pattern_len = len(file_pattern)
 
         def simple_compare_case_insensitive(to_match):
-            if file_pattern in to_match.lower():
-                return regex_compare(to_match)
+            idx = to_match.lower().find(file_pattern)
+            if idx >= 0:
+                return [to_match[:idx],
+                        to_match[idx:idx + pattern_len],
+                        to_match[idx + pattern_len:]]
         return simple_compare_case_insensitive
 
+    pattern_len = len(file_pattern)
+
     def simple_compare(to_match):
-        if file_pattern in to_match:
-            return regex_compare(to_match)
+        idx = to_match.find(file_pattern)
+        if idx >= 0:
+            return [to_match[:idx],
+                    to_match[idx:idx + pattern_len],
+                    to_match[idx + pattern_len:]]
 
     return simple_compare
 
 
 def filtered_subfolders(sub_folders, ignore_hidden, ignore_vcs):
     '''
-    Create a generator to return subfolders to search, removing the
-    ones to not search from the original list, to avoid keep
-    walking them
+    Filter subfolders in-place (so os.walk won't descend into them)
+    and yield the kept ones.
     '''
-
-    # Create a copy to iterate to avoid iteration problems
-    for folder in copy(sub_folders):
+    kept = []
+    for folder in sub_folders:
         if ignore_hidden and folder.startswith('.'):
-            sub_folders.remove(folder)
-        elif ignore_vcs and folder in VCS_DIRS:
-            sub_folders.remove(folder)
-        else:
-            yield folder
+            continue
+        if ignore_vcs and folder in VCS_DIRS:
+            continue
+        kept.append(folder)
+    sub_folders[:] = kept
+    return kept
 
 
 def filtered_files(files, ignore_hidden, ignore_vcs):
@@ -220,7 +229,7 @@ def print_match(splitted_match, colored, color=RED_CHARACTER):
 def delete_file(full_filename):
     try:
         if os.path.isdir(full_filename):
-            os.removedirs(full_filename)
+            os.rmdir(full_filename)
         else:
             os.remove(full_filename)
     except Exception as err:
@@ -229,10 +238,11 @@ def delete_file(full_filename):
 
 
 def execute_command(command_template, full_filename):
+    quoted_filename = shlex.quote(full_filename)
     if command_template.count('{}') > 0:
-        command = command_template.replace('{}', full_filename)
+        command = command_template.replace('{}', quoted_filename)
     else:
-        command = command_template + " " + full_filename
+        command = command_template + " " + quoted_filename
 
     result = os.system(command)
     if result:
@@ -476,6 +486,13 @@ def run():
         parse_params_and_search()
     except KeyboardInterrupt: # pragma: no cover
         pass
+    except BrokenPipeError: # pragma: no cover
+        # The consumer of the output closed it early (e.g. piping
+        # through `head`). Redirect stdout to devnull to avoid a
+        # second error when Python flushes the stream at exit
+        devnull = os.open(os.devnull, os.O_WRONLY)
+        os.dup2(devnull, sys.stdout.fileno())
+        exit(1)
     except WrongPattern as err:
         print(err)
         exit(1)

@@ -1,7 +1,14 @@
 *.swp
 *.swo
 *.pyc
+__pycache__/
 build
+dist/
 .coverage
 htmlcov
 *.t.err
+.DS_Store
+.aider*
+benchmark.log
+.venv*/
+venv*/

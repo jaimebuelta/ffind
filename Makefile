@@ -1,7 +1,14 @@
 # The PYTHON env variable is passed to the tests
+# Run the tests and benchmarks (default target)
+test: test_python3 benchmark
+
 # Run the tests in python 3 only
 test_python3:
 	PYTHON=python3 cram -v tests/*.t
+
+# Run the benchmark suite
+benchmark:
+	$${PYTHON:-python3} tests/benchmark.py
 
 # Run the tests in pypy
 test_pypy:
@@ -15,6 +22,3 @@ travis:
 githubactions:
 	rm -f $(shell pwd)/.coverage
 	COVERAGE_FILE='$(shell pwd)/.coverage' PYTHON='coverage run -a --source=ffind' cram -v tests/*.t
-
-# Run the tests
-test: test_python3
